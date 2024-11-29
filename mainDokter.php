@@ -1,4 +1,4 @@
-      <?php include 'templates/header.php';?>
+<?php include 'templates/header.php';?>
 
       <aside class="sidebar d-flex flex-column align-items-center p-4">
         <!-- Admin Profile -->
@@ -102,9 +102,15 @@
                                 <td><?= $row["Alamat"]; ?></td>
                                 <td><?= $row["No_Hp"]; ?></td>
                                 <td>
-                                    <a href="Rekam_medis/detail/<?= htmlspecialchars($row['ID_Dokter']); ?>" class="">
-                                        <i class="fa-solid fa-eye fa-lg"></i>
+                                    <a href="editDokter.php/<?= htmlspecialchars($row['ID_Dokter']); ?>" style="text-decoration: none;">
+                                      <i class="fa-solid fa-pen-to-square fa-lg"></i>
                                     </a>
+                                    <a href="controllers/dokterController.php?ID_Dokter=<?= htmlspecialchars($row['ID_Dokter'] ?? '', ENT_QUOTES) ?>" 
+                                      class="btn btn-danger btn-sm" 
+                                      onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                                      <i class="fas fa-trash hover:text-red-800 text-lg cursor-pointer ml-3"></i>
+                                    </a>
+
                                 </td>
                             </tr>
                             <?php
