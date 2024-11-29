@@ -14,15 +14,47 @@
 
             <!-- Informasi Pasien -->
             <div class="row mb-4">
+                <?php
+                $id_pasien = isset($_GET['id']) ? $_GET['id'] : null;
+
+                if (!$id_pasien) {
+                    echo "<p>ID pasien tidak ditemukan.</p>";
+                    exit;
+                }
+
+                // API URLs
+                $apiUrlPasien = "https://rawat-jalan.pockethost.io/api/collections/pasien/records";
+                $apiUrlPendaftaran = "https://rawat-jalan.pockethost.io/api/collections/pendaftaran/records";
+                $apiUrlDiagnosa = "https://rawat-jalan.pockethost.io/api/collections/diagnosa/records";
+                $apiUrlJadwal = "https://rawat-jalan.pockethost.io/api/collections/jadwal/records";
+                $apiUrlDokter = "http://202.10.36.253:3001/api/dokter";
+                $apiUrlResep = "https://rawat-jalan.pockethost.io/api/collections/resep/records";
+                $apiUrlObat = "https://rawat-jalan.pockethost.io/api/collections/obat/records";
+
+                // Ambil data pasien
+                $dataPasien = json_decode(file_get_contents($apiUrlPasien), true);
+                $pasien = null;
+
+                if (isset($dataPasien['items']) && is_array($dataPasien['items'])) {
+                    foreach ($dataPasien['items'] as $item) {
+                        if ($item['id'] === $id_pasien) {
+                            $pasien = $item;
+                            break;
+                        }
+                    }
+                }
+
+                if ($pasien):
+                ?>
                 <div class="col-md-6">
-                    <p><strong>Nama:</strong> John Doe</p>
-                    <p><strong>Jenis Kelamin:</strong> Laki-laki</p>
-                    <p><strong>Tanggal Lahir:</strong> 01-01-1990</p>
+                    <p><strong>Nama:</strong> <?= htmlspecialchars($pasien["nama_lengkap"]); ?></p>
+                    <p><strong>Jenis Kelamin:</strong> <?= htmlspecialchars($pasien["jenis_kelamin"]); ?></p>
+                    <p><strong>Tanggal Lahir:</strong> <?= htmlspecialchars($pasien["tanggal_lahir"]); ?></p>
                 </div>
                 <div class="col-md-6">
-                    <p><strong>Nama Ibu:</strong> Jane Doe</p>
-                    <p><strong>Alamat:</strong> Jl. Kebon Jeruk No. 12</p>
-                    <p><strong>No. Telepon:</strong> 08123456789</p>
+                    <p><strong>Nama Ibu:</strong> <?= htmlspecialchars($pasien["nama_ibu"]); ?></p>
+                    <p><strong>Alamat:</strong> <?= htmlspecialchars($pasien["alamat"]); ?></p>
+                    <p><strong>No. Telepon:</strong> <?= htmlspecialchars($pasien["no_telp"]); ?></p>
                 </div>
             </div>
 
@@ -33,77 +65,134 @@
                         <tr>
                             <th class="text-center">No</th>
                             <th class="text-center">Tanggal</th>
-                            <th class="text-center">Keluhan</th>
                             <th class="text-center">Dokter</th>
-                            <th class="text-center">Lihat Rekam Medis</th>
+                            <th class="text-center">Keluhan</th>
+                            <th class="text-center">Detail</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Data Dummy -->
+                        <?php
+                        // Ambil data API lainnya
+                        $dataPendaftaran = json_decode(file_get_contents($apiUrlPendaftaran), true);
+                        $dataDiagnosa = json_decode(file_get_contents($apiUrlDiagnosa), true);
+                        $dataJadwal = json_decode(file_get_contents($apiUrlJadwal), true);
+                        $dataDokter = json_decode(file_get_contents($apiUrlDokter), true);
+                        $dataResep = json_decode(file_get_contents($apiUrlResep), true);
+
+                        // Buat map dokter
+                        $dokterMap = [];
+                        if (isset($dataDokter['payload']) && is_array($dataDokter['payload'])) {
+                            foreach ($dataDokter['payload'] as $dokter) {
+                                $dokterMap[$dokter['ID_Dokter']] = $dokter['Nama'];
+                            }
+                        }
+
+                        // Buat map jadwal dan diagnosa
+                        $jadwalMap = [];
+                        if (isset($dataJadwal['items']) && is_array($dataJadwal['items'])) {
+                            foreach ($dataJadwal['items'] as $jadwal) {
+                                $jadwalMap[$jadwal['pendaftaran']] = $jadwal;
+                            }
+                        }
+
+                        $diagnosaMap = [];
+                        if (isset($dataDiagnosa['items']) && is_array($dataDiagnosa['items'])) {
+                            foreach ($dataDiagnosa['items'] as $diagnosa) {
+                                $diagnosaMap[$diagnosa['jadwal']] = $diagnosa;
+                            }
+                        }
+
+                        //buat map resep
+                        $resepMap = [];
+                        if (isset($dataResep['items']) && is_array($dataResep['items'])) {
+                            foreach ($dataResep['items'] as $resep) {
+                                $resepMap[$resep['id']] = $resep;
+                            }
+                        }
+
+
+                        // Filter pendaftaran berdasarkan pasien
+                        $rekamMedis = [];
+                        if (isset($dataPendaftaran['items']) && is_array($dataPendaftaran['items'])) {
+                            foreach ($dataPendaftaran['items'] as $pendaftaran) {
+                                if ($pendaftaran['pasien'] === $id_pasien) {
+                                    $rekamMedis[] = $pendaftaran;
+                                }
+                            }
+                        }
+
+                        
+
+                        // Tampilkan data rekam medis
+                        if (count($rekamMedis) > 0):
+                            $no = 1;
+                            foreach ($rekamMedis as $medis):
+                                $jadwal = $jadwalMap[$medis['id']] ?? null;
+                                $diagnosa = $jadwal ? ($diagnosaMap[$jadwal['id']] ?? null) : null;
+                                $keluhan = $diagnosa['keluhan'] ?? '-';
+                                $detail = $diagnosa['detail'] ?? '-';
+                                $jenisLayanan = $diagnosa['jenis_layanan'] ?? '-';
+                                $jenisPemeriksaan = $diagnosa['jenis_pemeriksaan'] ?? '-';
+                                $prioritas = $diagnosa['prioritas'] ?? '-';
+                                $catatan = $diagnosa['catatan'] ?? '-';
+                                $dokterNama = $dokterMap[$medis['dokter']] ?? 'Dokter Tidak Ditemukan';
+                                $resep = $resepMap[$diagnosa['id']] ?? null;
+                        ?>
                         <tr>
-                            <td class="text-center">1</td>
-                            <td class="text-center">20-11-2024</td>
-                            <td class="text-center">Demam Tinggi</td>
-                            <td class="text-center">Dr. Smith</td>
+                            <td class="text-center"><?= $no; ?></td>
+                            <td class="text-center"><?= htmlspecialchars($medis["tanggal"]); ?></td>
+                            <td class="text-center"><?= htmlspecialchars($dokterNama); ?></td>
+                            <td class="text-center"><?= htmlspecialchars($keluhan); ?></td>
                             <td class="text-center">
-                                <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#rekamMedisModal1">
-                                    Lihat
+                                <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#rekamMedisModal<?= $no; ?>">
+                                    Detail
                                 </button>
                             </td>
                         </tr>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="rekamMedisModal<?= $no; ?>" tabindex="-1" aria-labelledby="rekamMedisModalLabel<?= $no; ?>" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="rekamMedisModalLabel<?= $no; ?>">Detail Rekam Medis</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p><strong>Tanggal:</strong> <?= htmlspecialchars($medis["tanggal"]); ?></p>
+                                        <p><strong>Dokter:</strong> <?= htmlspecialchars($dokterNama); ?></p>
+                                        <p><strong>Keluhan:</strong> <?= htmlspecialchars($keluhan); ?></p>
+                                        <p><strong>Diagnosa:</strong> <?= htmlspecialchars($detail); ?></p>
+                                        <p><strong>Jenis Layanan:</strong> <?= htmlspecialchars($jenisLayanan); ?></p>
+                                        <p><strong>Jenis Layanan:</strong> <?= htmlspecialchars($jenisPemeriksaan); ?></p>
+                                        <p><strong>Prioritas:</strong> <?= htmlspecialchars($prioritas); ?></p>
+                                        <p><strong>Catatan:</strong> <?= htmlspecialchars($catatan); ?></p>
+                                        <p><strong>Resep:</strong> <?= $resep ? htmlspecialchars($resep['resep']) : '-'; ?></p>
+                                        
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php
+                            $no++;
+                            endforeach;
+                        else:
+                        ?>
                         <tr>
-                            <td class="text-center">2</td>
-                            <td class="text-center">18-11-2024</td>
-                            <td class="text-center">Sakit Kepala</td>
-                            <td class="text-center">Dr. Watson</td>
-                            <td class="text-center">
-                                <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#rekamMedisModal2">
-                                    Lihat
-                                </button>
-                            </td>
+                            <td colspan="5" class="text-center">Data tidak ditemukan.</td>
                         </tr>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>
+            <?php else: ?>
+            <p>Data pasien tidak ditemukan.</p>
+            <?php endif; ?>
         </div>
     </div>
 </main>
-
-<!-- Modal Detail Rekam Medis -->
-<div class="modal fade" id="rekamMedisModal1" tabindex="-1" aria-labelledby="rekamMedisModal1Label" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="rekamMedisModal1Label">Detail Rekam Medis</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p><strong>Tanggal:</strong> 20-11-2024</p>
-                <p><strong>Keluhan:</strong> Demam Tinggi</p>
-                <p><strong>Dokter:</strong> Dr. Smith</p>
-                <p><strong>Detail:</strong> Pasien mengalami demam tinggi selama tiga hari terakhir.</p>
-                <p><strong>Jenis Pemeriksaan:</strong> Pemeriksaan Fisik</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="rekamMedisModal2" tabindex="-1" aria-labelledby="rekamMedisModal2Label" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="rekamMedisModal2Label">Detail Rekam Medis</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p><strong>Tanggal:</strong> 18-11-2024</p>
-                <p><strong>Keluhan:</strong> Sakit Kepala</p>
-                <p><strong>Dokter:</strong> Dr. Watson</p>
-                <p><strong>Detail:</strong> Pasien mengalami sakit kepala selama satu minggu terakhir.</p>
-                <p><strong>Jenis Pemeriksaan:</strong> Pemeriksaan Darah</p>
-            </div>
-        </div>
-    </div>
-</div>
 
 <?php include 'templates/footer.php'; ?>
