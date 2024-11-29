@@ -97,100 +97,63 @@
             </div>
         </aside>
 
-        <!-- Main Content -->
-        <main class="flex-1 px-4 py-4">
-    <div class="d-flex align-items-center mb-4">
-        <img src="img/Shield.png" alt="Shield Logo" class="me-3" style="width: 60px; height: auto;">
-        <h2 class="fw-bold text-primary mb-0">PENS HOSPITAL</h2>
-    </div>
-
-    <div class="content my-4 d-flex justify-content-center">
-        <div class="w-100 bg-light rounded-4 p-4 shadow-sm">
-            <!-- Header -->
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h3 class="fw-bold text-secondary">DATA PASIEN</h3>
-                <form class="d-flex align-items-center" action="#" method="post">
-                    <input type="text" class="form-control shadow-sm me-2" placeholder="Cari Pasien..." style="max-width: 300px;" />
-                    <button type="submit" class="btn btn-primary px-4">Cari</button>
-                </form>
+                <!-- Main Content -->
+                <div class="flex-grow-1 p-4">
+            <div class="bg-white p-5 shadow rounded">
+                <h1>Welcome to Admin Dashboard</h1>
+                <p class="text-muted">Manage your data efficiently with our tools.</p>
             </div>
 
-            <!-- Table -->
-            <div class="table-responsive">
-                <table class="table table-bordered text-center align-middle">
-                    <thead class="table-primary">
-                        <tr>
-                            <th>ID Pasien</th>
-                            <th>Nama Pasien</th>
-                            <th>Nama Ibu</th>
-                            <th>Tgl. Lahir</th>
-                            <th>No. Telp</th>
-                            <th>Lihat Rekam Medis</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Dummy data -->
-                        <tr>
-                            <td>001</td>
-                            <td>John Doe</td>
-                            <td>Jane Doe</td>
-                            <td>1990-01-01</td>
-                            <td>081234567890</td>
-                            <td>
-                                <a href="#" class="text-primary">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>002</td>
-                            <td>Mary Jane</td>
-                            <td>Sarah Jane</td>
-                            <td>1985-05-15</td>
-                            <td>081298765432</td>
-                            <td>
-                                <a href="#" class="text-primary">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="6" class="text-center text-muted">Data pasien tidak tersedia.</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <!-- Tabel Pasien -->
+            <div class="bg-white p-5 mt-4 shadow rounded">
+                <h2>Data Pasien</h2>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>ID Pasien</th>
+                                <th>Nama</th>
+                                <th>Umur</th>
+                                <th>Jenis Kelamin</th>
+                                <th>Alamat</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Contoh Data Pasien -->
+                            <tr>
+                                <td>001</td>
+                                <td>Ahmad Fauzi</td>
+                                <td>30</td>
+                                <td>Laki-laki</td>
+                                <td>Jl. Merdeka No. 123</td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary">Edit</button>
+                                    <button class="btn btn-sm btn-danger">Hapus</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>002</td>
+                                <td>Siti Nurhaliza</td>
+                                <td>28</td>
+                                <td>Perempuan</td>
+                                <td>Jl. Sudirman No. 45</td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary">Edit</button>
+                                    <button class="btn btn-sm btn-danger">Hapus</button>
+                                </td>
+                            </tr>
+                            <!-- Data Lainnya Bisa Ditambahkan Secara Dinamis -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
-
-            <!-- Pagination -->
-            <nav class="d-flex justify-content-end mt-4">
-                <ul class="pagination">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1">Previous</a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item active" aria-current="page">
-                        <a class="page-link" href="#">2</a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">Next</a>
-                    </li>
-                </ul>
-            </nav>
         </div>
-    </div>
-</main>
 
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
-        integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
         crossorigin="anonymous"></script>
 </body>
 
