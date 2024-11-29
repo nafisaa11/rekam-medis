@@ -81,7 +81,7 @@
         <!-- Admin Profile -->
         <div class="d-flex flex-column align-items-center">
           <img
-            src="img/gojo.png"
+            src="templates/img/gojo.png"
             alt="Admin Image"
             class="admin-image rounded-circle shadow"
           />
@@ -90,14 +90,18 @@
 
         <!-- Menu -->
         <div class="mt-5 w-100">
-          <div class="menu-item text-white d-flex align-items-center">
+          <div class="menu-item text-white d-flex align-items-center mt-3">
             <i class="fa-solid fa-file-medical"></i>
-            <span>Data Pasien</span>
+            <a
+              href="index.php"
+              class="text-decoration-none text-white w-100"
+              >Data Pasien</a
+            >
           </div>
           <div class="menu-item text-white d-flex align-items-center mt-3">
             <i class="fa-solid fa-user-md"></i>
             <a
-              href="Rekam_medis/mainDokter"
+              href="mainDokter.php"
               class="text-decoration-none text-white w-100"
               >Data Dokter</a
             >
