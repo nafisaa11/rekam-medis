@@ -97,8 +97,8 @@
             </div>
         </aside>
 
-                <!-- Main Content -->
-                <div class="flex-grow-1 p-4">
+        <!-- Main Content -->
+        <div class="flex-grow-1 p-4">
             <div class="bg-white p-5 shadow rounded">
                 <h1>Welcome to Admin Dashboard</h1>
                 <p class="text-muted">Manage your data efficiently with our tools.</p>
@@ -120,30 +120,35 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Contoh Data Pasien -->
-                            <tr>
-                                <td>001</td>
-                                <td>Ahmad Fauzi</td>
-                                <td>30</td>
-                                <td>Laki-laki</td>
-                                <td>Jl. Merdeka No. 123</td>
-                                <td>
-                                    <button class="btn btn-sm btn-primary">Edit</button>
-                                    <button class="btn btn-sm btn-danger">Hapus</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>002</td>
-                                <td>Siti Nurhaliza</td>
-                                <td>28</td>
-                                <td>Perempuan</td>
-                                <td>Jl. Sudirman No. 45</td>
-                                <td>
-                                    <button class="btn btn-sm btn-primary">Edit</button>
-                                    <button class="btn btn-sm btn-danger">Hapus</button>
-                                </td>
-                            </tr>
-                            <!-- Data Lainnya Bisa Ditambahkan Secara Dinamis -->
+                            <?php
+                            $apiUrl = "https://rawat-jalan.pockethost.io/api/collections/pasien/records";
+                            $data = json_decode(file_get_contents($apiUrl), true);
+
+
+                            // Cek apakah data items tersedia di dalam hasil decode JSON
+                            if (isset($data['items']) && is_array($data['items'])):
+                                // Loop melalui setiap item dalam data items
+                                foreach ($data['items'] as $item):
+                                    ?>
+                                    <tr>
+                                        <td><?= htmlspecialchars($item["id"]); ?></td>
+                                        <td><?= htmlspecialchars($item["nama_lengkap"]); ?></td>
+                                        <td><?= htmlspecialchars($item["nama_ibu"]); ?></td>
+                                        <td><?= htmlspecialchars($item["tanggal_lahir"]); ?></td>
+                                        <td><?= htmlspecialchars($item["no_telp"]); ?></td>
+                                        <td>
+                                            <a href="Rekam_medis/detail/<?= htmlspecialchars($item['id']); ?>"
+                                                class="">
+                                                <i class="fa-solid fa-eye fa-lg"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                endforeach;
+                            else:
+                                echo "<tr><td colspan='6' class='text-center'>Data pasien tidak tersedia.</td></tr>";
+                            endif;
+                            ?>
                         </tbody>
                     </table>
                 </div>
