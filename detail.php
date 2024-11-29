@@ -196,16 +196,44 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <p><strong>Tanggal:</strong> <?= htmlspecialchars($medis["tanggal"]); ?></p>
-                                        <p><strong>Dokter:</strong> <?= htmlspecialchars($dokterNama); ?></p>
-                                        <p><strong>Keluhan:</strong> <?= htmlspecialchars($keluhan); ?></p>
-                                        <p><strong>Diagnosa:</strong> <?= htmlspecialchars($detail); ?></p>
-                                        <p><strong>Jenis Layanan:</strong> <?= htmlspecialchars($jenisLayanan); ?></p>
-                                        <p><strong>Jenis Layanan:</strong> <?= htmlspecialchars($jenisPemeriksaan); ?></p>
-                                        <p><strong>Prioritas:</strong> <?= htmlspecialchars($prioritas); ?></p>
-                                        <p><strong>Catatan:</strong> <?= htmlspecialchars($catatan); ?></p>
-                                        <p><strong>Resep:</strong> <?= $resep ? htmlspecialchars($resep['resep']) : '-'; ?></p>
-                                        
+                                        <form>
+                                            <div class="mb-3">
+                                                <label for="tanggal" class="form-label">Tanggal</label>
+                                                <input type="text" class="form-control" id="tanggal" value="<?= htmlspecialchars($medis["tanggal"]); ?>" disabled>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="dokter" class="form-label">Dokter</label>
+                                                <input type="text" class="form-control" id="dokter" value="<?= htmlspecialchars($dokterNama); ?>" disabled>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="keluhan" class="form-label">Keluhan</label>
+                                                <input type="text" class="form-control" id="keluhan" value="<?= htmlspecialchars($keluhan); ?>" disabled>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="diagnosa" class="form-label">Diagnosa</label>
+                                                <input type="text" class="form-control" id="diagnosa" value="<?= htmlspecialchars($detail); ?>" disabled>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="jenisLayanan" class="form-label">Jenis Layanan</label>
+                                                <input type="text" class="form-control" id="jenisLayanan" value="<?= htmlspecialchars($jenisLayanan); ?>" disabled>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="jenisPemeriksaan" class="form-label">Jenis Pemeriksaan</label>
+                                                <input type="text" class="form-control" id="jenisPemeriksaan" value="<?= htmlspecialchars($jenisPemeriksaan); ?>" disabled>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="prioritas" class="form-label">Prioritas</label>
+                                                <input type="text" class="form-control" id="prioritas" value="<?= htmlspecialchars($prioritas); ?>" disabled>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="catatan" class="form-label">Catatan</label>
+                                                <textarea class="form-control" id="catatan" rows="3" disabled><?= htmlspecialchars($catatan); ?></textarea>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="resep" class="form-label">Resep</label>
+                                                <input type="text" class="form-control" id="resep" value="<?= $resep ? htmlspecialchars($resep['resep']) : '-'; ?>" disabled>
+                                            </div>
+                                        </form>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
@@ -213,6 +241,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <?php
                             $no++;
                             endforeach;
