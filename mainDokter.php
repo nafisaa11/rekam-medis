@@ -48,7 +48,7 @@
       </aside>
       
       <!-- Main Content -->
-      <main class="flex-1 px-4 py-4">
+      <main class="flex-grow-1 p-4">
         <div class="d-flex align-items-center mb-4">
           <img
             src="templates/img/Shield.png"
@@ -59,91 +59,92 @@
           <h2 class="fw-bold text-primary mb-0">PENS HOSPITAL</h2>
         </div>
 
-        <div class="content my-4 d-flex justify-content-center">
-          <div class="w-100 bg-light rounded-4 p-4 shadow-sm">
-            <!-- Header -->
-            <div class="d-flex justify-content-between align-items-center mb-4">
-              <h3 class="fw-bold text-secondary">DATA PASIEN</h3>
-              <form class="d-flex align-items-center" action="#" method="post">
-                <input
-                  type="text"
-                  class="form-control shadow-sm me-2"
-                  placeholder="Cari Pasien..."
-                  style="max-width: 300px"
-                />
-                <button type="submit" class="btn btn-primary px-4">Cari</button>
-              </form>
-            </div>
-
-            <!-- Table -->
-            <div class="table-responsive">
-              <table class="table table-bordered text-center align-middle">
+    <!-- Tabel Pasien -->
+    <div class="bg-white p-5 mt-4 shadow rounded">
+        <h2>Data Pasien</h2>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
                 <thead class="table-primary">
-                  <tr>
-                    <th>ID Pasien</th>
-                    <th>Nama Pasien</th>
-                    <th>Nama Ibu</th>
-                    <th>Tgl. Lahir</th>
-                    <th>No. Telp</th>
-                    <th>Lihat Rekam Medis</th>
-                  </tr>
+                    <tr>
+                        <th>ID Pasien</th>
+                        <th>Nama</th>
+                        <th>Spesialisasi</th>
+                        <th>Alamat</th>
+                        <th>No HP</th>
+                        <th>Aksi</th>
+                    </tr>
                 </thead>
                 <tbody>
-                  <!-- Dummy data -->
-                  <tr>
-                    <td>001</td>
-                    <td>John Doe</td>
-                    <td>Jane Doe</td>
-                    <td>1990-01-01</td>
-                    <td>081234567890</td>
-                    <td>
-                      <a href="#" class="text-primary">
-                        <i class="fas fa-eye"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>002</td>
-                    <td>Mary Jane</td>
-                    <td>Sarah Jane</td>
-                    <td>1985-05-15</td>
-                    <td>081298765432</td>
-                    <td>
-                      <a href="#" class="text-primary">
-                        <i class="fas fa-eye"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colspan="6" class="text-center text-muted">
-                      Data pasien tidak tersedia.
-                    </td>
-                  </tr>
+                    <?php
+                    // API URL
+                    $apiUrl = "http://202.10.36.253:3001/api/dokter";
+                    $data = json_decode(file_get_contents($apiUrl), true);
+
+                    // Pagination Variables
+                    $itemsPerPage = 5; // Jumlah data per halaman
+                    $totalItems = isset($data['payload']) ? count($data['payload']) : 0; // Total data
+                    $totalPages = ceil($totalItems / $itemsPerPage); // Total halaman
+                    $currentPage = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1; // Halaman aktif
+                    $currentPage = max(1, min($currentPage, $totalPages)); // Validasi halaman aktif
+
+                    // Data yang ditampilkan per halaman
+                    $offset = ($currentPage - 1) * $itemsPerPage;
+                    $paginatedData = isset($data['payload']) ? array_slice($data['payload'], $offset, $itemsPerPage) : [];
+
+                    // Loop data pasien
+                    if (!empty($paginatedData)):
+                        foreach ($paginatedData as $row):
+                            ?>
+                            <tr>
+                                <td><?= $row["ID_Dokter"]; ?></td>
+                                <td><?= $row["Nama"]; ?></td>
+                                <td><?= $row["Spesialisasi"]; ?></td>
+                                <td><?= $row["Alamat"]; ?></td>
+                                <td><?= $row["No_Hp"]; ?></td>
+                                <td>
+                                    <a href="Rekam_medis/detail/<?= htmlspecialchars($row['ID_Dokter']); ?>" class="">
+                                        <i class="fa-solid fa-eye fa-lg"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <?php
+                        endforeach;
+                    else:
+                        echo "<tr><td colspan='6' class='text-center'>Data pasien tidak tersedia.</td></tr>";
+                    endif;
+                    ?>
                 </tbody>
-              </table>
-            </div>
-
-            <!-- Pagination -->
-            <nav class="d-flex justify-content-end mt-4">
-              <ul class="pagination">
-                <li class="page-item disabled">
-                  <a class="page-link" href="#" tabindex="-1">Previous</a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item active" aria-current="page">
-                  <a class="page-link" href="#">2</a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                  <a class="page-link" href="#">Next</a>
-                </li>
-              </ul>
-            </nav>
-          </div>
+            </table>
         </div>
-      </main>
+
+        <!-- Pagination -->
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-end">
+                <?php if ($currentPage > 1): ?>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<?= $currentPage - 1; ?>" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                <?php endif; ?>
+
+                <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                    <li class="page-item <?= ($i == $currentPage) ? 'active' : ''; ?>">
+                        <a class="page-link" href="?page=<?= $i; ?>"><?= $i; ?></a>
+                    </li>
+                <?php endfor; ?>
+
+                <?php if ($currentPage < $totalPages): ?>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<?= $currentPage + 1; ?>" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                <?php endif; ?>
+            </ul>
+        </nav>
     </div>
-  </div>
+</main>
 
 
-<?php include 'templates/footer.php';?>
+<?php include 'templates/footer.php'; ?>

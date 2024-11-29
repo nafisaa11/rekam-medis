@@ -76,5 +76,3 @@
 
   <body>
     <div class="d-flex">
-      <!-- Sidebar -->
-      
