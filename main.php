@@ -2,7 +2,7 @@
 
     <aside class="sidebar d-flex flex-column align-items-center p-4">
         <!-- Admin Profile -->
-        <div class="d-flex flex-column align-items-center">
+        <div class="d-flex flex-column align-items-center mt-3">
           <img
             src="templates/img/gojo.png"
             alt="Admin Image"
@@ -22,13 +22,13 @@
             <a
               href="mainDokter.php"
               class="text-decoration-none text-white w-100"
-              >Data Dokter</a
+              >Daftar Pasien</a
             >
           </div>
         </div>
 
         <!-- Logout Button -->
-        <div class="position-absolute bottom-0 mb-3">
+        <div class="position-absolute bottom-0 mb-5">
           <a href="Rekam_medis" class="logout-btn">
             <i class="fas fa-sign-out-alt"></i>
           </a>
@@ -36,30 +36,30 @@
     </aside>
 
         <!-- Main Content -->
-        <div class="flex-grow-1 p-4">
+        <main class="flex-grow-1 px-5 pt-5">
             <div class="d-flex align-items-center mb-4">
-            <img
-                src="templates/img/Shield.png"
-                alt="Shield Logo"
-                class="me-3"
-                style="width: 60px; height: auto"
-            />
-            <h2 class="fw-bold text-primary mb-0">PENS HOSPITAL</h2>
+                <img
+                    src="templates/img/Shield.png"
+                    alt="Shield Logo"
+                    class="me-3"
+                    style="width: 60px; height: auto"
+                />
+                <h2 class="fw-bold text-dark mb-0">PENS HOSPITAL</h2>
             </div>
 
             <!-- Tabel Pasien -->
-            <div class="bg-white p-5 mt-4 shadow rounded">
+            <div class="bg-white px-5 py-4 mt-2 shadow rounded-4">
                 <h2>Data Pasien</h2>
-                <div class="table-responsive">
-                    <table class="table table-striped table-hover">
+                <div class="table-responsive mt-4">
+                    <table class="table table-hover">
                         <thead class="table-primary">
                             <tr>
-                                <th>ID Pasien</th>
-                                <th>Nama</th>
-                                <th>Umur</th>
-                                <th>Jenis Kelamin</th>
-                                <th>Alamat</th>
-                                <th>Aksi</th>
+                                <th class="text-center ps-3">ID Pasien</th>
+                                <th class="text-center">Nama</th>
+                                <th class="text-center">Umur</th>
+                                <th class="text-center">Jenis Kelamin</th>
+                                <th class="text-center">Alamat</th>
+                                <th class="text-center pe-3">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -74,14 +74,13 @@
                                 foreach ($data['items'] as $item):
                                     ?>
                                     <tr>
-                                        <td><?= htmlspecialchars($item["id"]); ?></td>
-                                        <td><?= htmlspecialchars($item["nama_lengkap"]); ?></td>
-                                        <td><?= htmlspecialchars($item["nama_ibu"]); ?></td>
-                                        <td><?= htmlspecialchars($item["tanggal_lahir"]); ?></td>
-                                        <td><?= htmlspecialchars($item["no_telp"]); ?></td>
-                                        <td>
-                                            <a href="Rekam_medis/detail/<?= htmlspecialchars($item['id']); ?>"
-                                                class="">
+                                        <td class="text-center ps-3" ><?= htmlspecialchars($item["id"]); ?></td>
+                                        <td class="text-center"><?= htmlspecialchars($item["nama_lengkap"]); ?></td>
+                                        <td class="text-center"><?= htmlspecialchars($item["nama_ibu"]); ?></td>
+                                        <td class="text-center"><?= htmlspecialchars($item["tanggal_lahir"]); ?></td>
+                                        <td class="text-center"><?= htmlspecialchars($item["no_telp"]); ?></td>
+                                        <td class="text-center pe-3">
+                                            <a href="detail.php?id=<?= htmlspecialchars($item['id']); ?>" class="">
                                                 <i class="fa-solid fa-eye fa-lg"></i>
                                             </a>
                                         </td>
@@ -95,10 +94,9 @@
                         </tbody>
                     </table>
                 </div>
+                <!-- Pagination -->
+               
             </div>
-        </div>
-
-    </div>
-</div>
+    </main>
 
 <?php include 'templates/footer.php'; ?>

@@ -1,7 +1,45 @@
 <?php include 'templates/header.php'; ?>
+
+    <aside class="sidebar d-flex flex-column align-items-center p-4">
+        <!-- Admin Profile -->
+        <div class="d-flex flex-column align-items-center mt-3">
+          <img
+            src="templates/img/gojo.png"
+            alt="Admin Image"
+            class="admin-image rounded-circle shadow"
+          />
+          <h3 class="mt-3">Admin 1</h3>
+        </div>
+
+        <!-- Menu -->
+        <div class="mt-5 w-100">
+            <div class="menu-item text-white d-flex align-items-center">
+                <i class="fa-solid fa-file-medical"></i>
+                <a href="main.php"
+                class="text-decoration-none text-white w-100">
+                Data Pasien
+                </a>
+            </div>
+            <div class="menu-item text-white d-flex align-items-center mt-3">
+                <i class="fa-solid fa-user-md"></i>
+                <a
+                href="mainDokter.php"
+                class="text-decoration-none text-white w-100"
+                >Data Dokter</a
+                >
+            </div>
+        </div>
+
+        <!-- Logout Button -->
+        <div class="position-absolute bottom-0 mb-5">
+          <a href="Rekam_medis" class="logout-btn">
+            <i class="fas fa-sign-out-alt"></i>
+          </a>
+        </div>
+    </aside>
+
 <!-- Main Content -->
-<main class="flex-grow-1 p-4">
-    <div class="container">
+<main class="flex-grow-1 px-5 pt-5">
         <div class="d-flex align-items-center mb-4">
             <img src="templates/img/Shield.png" alt="" class="me-3" style="width: 64px;">
             <h2 class="mb-0">PENS HOSPITAL</h2>
