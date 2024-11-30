@@ -146,10 +146,10 @@ if ($dataResult) {
                 <td class="text-center"><?= htmlspecialchars($row["Alamat"]); ?></td>
                 <td class="text-center"><?= htmlspecialchars($row["No_Hp"]); ?></td>
                 <td class="d-flex justify-content-evenly pe-3">
-                    <a href="#" class="btn-edit-dokter" data-id="<?= htmlspecialchars($row['ID_Dokter']); ?>" style="text-decoration: none;">
-                        <i class="fa-solid fa-pen-to-square fa-lg me-2"></i>
-                    </a>
-                  <!--  -->
+                  <a href="editDokter.php?ID_Dokter=<?= htmlspecialchars($row['ID_Dokter'], ENT_QUOTES) ?>"
+                    class="btn-edit-dokter" style="text-decoration: none;">
+                    <i class="fa-solid fa-pen-to-square fa-lg me-2"></i>
+                  </a>
                   <form action="function.php" method="POST" style="display:inline;">
                     <input type="hidden" name="ID_Dokter" value="<?= htmlspecialchars($row['ID_Dokter'], ENT_QUOTES); ?>">
                     <input type="hidden" name="action" value="hapus">
@@ -273,106 +273,5 @@ if ($dataResult) {
   </div>
 </div>
 
-<!-- Modal Edit Dokter -->
-<div class="modal fade" id="editDokterModal" tabindex="-1" aria-labelledby="editDokterModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div style="background-color: #2196f3;" class="modal-header text-white">
-        <h5 class="modal-title px-4" id="editDokterModalLabel">Edit Data Dokter</h5>
-        <button type="button" class="btn-close text-white me-4" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body px-5">
-        <form id="editDokterForm" action="controllers/editDokter.php" method="post">
-          <input type="hidden" id="edit_id_dokter" name="ID_Dokter">
-          <div class="mb-3">
-            <label for="edit_nama" class="form-label">Nama</label>
-            <input type="text" id="edit_nama" name="Nama" class="form-control" placeholder="ex: AURA SASI KIRANA"
-              required>
-          </div>
-          <div class="mb-3">
-            <label for="edit_email" class="form-label">E-mail</label>
-            <input type="email" id="edit_email" name="Email" class="form-control" placeholder="ex: aurasasi@mail.com">
-          </div>
-          <div class="row mb-3">
-            <div class="col-md-6">
-              <label class="form-label">Jenis Kelamin</label>
-              <div class="d-flex gap-3">
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="Jenis_Kelamin" id="edit_laki-laki"
-                    value="Laki - laki" required>
-                  <label class="form-check-label" for="edit_laki-laki">Laki-laki</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="Jenis_Kelamin" id="edit_perempuan"
-                    value="Perempuan" required>
-                  <label class="form-check-label" for="edit_perempuan">Perempuan</label>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <label for="edit_tanggal-lahir" class="form-label">Tanggal Lahir</label>
-              <input type="date" id="edit_tanggal-lahir" name="Tanggal_Lahir" class="form-control" required>
-            </div>
-          </div>
-          <div class="mb-3">
-            <label for="edit_alamat" class="form-label">Alamat</label>
-            <textarea id="edit_alamat" name="Alamat" class="form-control" rows="3" required></textarea>
-          </div>
-          <div class="row mb-3">
-            <div class="col-md-6">
-              <label for="edit_npi" class="form-label">NPI</label>
-              <input type="text" id="edit_npi" name="N PI" class="form-control" placeholder="123456789" required>
-            </div>
-            <div class="col-md-6">
-              <label for="edit_no-hp" class="form-label">Nomor HP</label>
-              <input type="text" id="edit_no-hp" name="No_Hp" class="form-control" placeholder="0812345xxxxx" required>
-            </div>
-          </div>
-          <div class="row mb-3">
-            <div class="col-md-6">
-              <label for="edit_spesialisasi" class="form-label">Spesialisasi</label>
-              <input type="text" id="edit_spesialisasi" name="Spesialisasi" class="form-control"
-                placeholder="ex: Spesialis Jantung">
-            </div>
-            <div class="col-md-6">
-              <label for="edit_tanggal-lisensi" class="form-label">Tanggal Lisensi</label>
-              <input type="date" id="edit_tanggal-lisensi" name="Tanggal_Lisensi" class="form-control" required>
-            </div>
-          </div>
-          <div class="text-end my-4">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-          <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
 <?php include 'templates/footer.php'; ?>
 
-<script>
-  // Script untuk mengisi data dokter ke dalam modal edit
-  document.querySelectorAll('.btn-edit-dokter').forEach(button => {
-    button.addEventListener('click', function () {
-      const idDokter = this.getAttribute('data-id');
-      // Fetch data dokter berdasarkan ID
-      fetch(`function.php?ID_Dokter=${idDokter}`)
-        .then(response => response.json())
-        .then(data => {
-          document.getElementById('edit_id_dokter').value = data.ID_Dokter;
-          document.getElementById('edit_nama').value = data.Nama;
-          document.getElementById('edit_email').value = data.Email;
-          document.querySelector(`input[name="Jenis_Kelamin"][value="${data.Jenis_Kelamin}"]`).checked = true;
-          document.getElementById('edit_tanggal-lahir').value = data.Tanggal_Lahir;
-          document.getElementById('edit_alamat').value = data.Alamat;
-          document.getElementById('edit_npi').value = data.NPI;
-          document.getElementById('edit_no-hp').value = data.No_Hp;
-          document.getElementById('edit_spesialisasi').value = data.Spesialisasi;
-          document.getElementById('edit_tanggal-lisensi').value = data.Tanggal_Lisensi;
-        });
-    });
-  });
-</script>
