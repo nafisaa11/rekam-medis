@@ -41,7 +41,7 @@
                     class="me-3"
                     style="width: 60px; height: auto"
                 />
-                <h2 class="fw-bold text-primary mb-0">PENS HOSPITAL</h2>
+                <h2 class="fw-bold mb-0">PENS HOSPITAL</h2>
             </div>
 
             <div class="card shadow border-0 pb-5">

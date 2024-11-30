@@ -24,6 +24,7 @@
           <div class="menu-item text-white d-flex align-items-center mt-3">
             <i class="fa-solid fa-user-md"></i>
             <a
+              href="mainDokter.php"
               class="text-decoration-none text-white w-100"
               >Data Dokter</a
             >
