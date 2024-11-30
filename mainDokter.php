@@ -28,7 +28,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
         <i class="fa-solid fa-user-md"></i>
         <span>Data Dokter</span>
     </a>
-    
+
     <!-- button Tambah Dokter -->
     <a href="tambahDokter.php" class="menu-item text-white d-flex align-items-center mt-3 text-decoration-none w-100">
         <i class="fa-solid fa-plus"></i>
@@ -133,7 +133,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
           <?php
             endforeach;
           else:
-            echo "<tr><td colspan='6' class='text-center'>Data pasien tidak tersedia.</td></tr>";
+            echo "<tr><td colspan='6' class='text-center'>Data Dokter tidak tersedia.</td></tr>";
           endif;
           ?>
         </tbody>

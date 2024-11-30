@@ -94,7 +94,10 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
                   strpos(strtolower($item['no_telp']), $searchTerm) !== false;
               });
             }
+
+
             // Loop melalui setiap item dalam data items
+            if (!empty($data['items'])):
             foreach ($data['items'] as $item):
           ?>
               <tr>
@@ -109,12 +112,15 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
                   </a>
                 </td>
               </tr>
-          <?php
-            endforeach;
-          else:
-            echo "<tr><td colspan='6' class='text-center'>Data pasien tidak tersedia.</td></tr>";
-          endif;
-          ?>
+              <?php
+                  endforeach;
+                else:
+                  echo "<tr><td colspan='6' class='text-center'>Data pasien tidak tersedia.</td></tr>";
+                endif;
+              else:
+                echo "<tr><td colspan='6' class='text-center'>Data pasien tidak tersedia.</td></tr>";
+              endif;
+              ?>
         </tbody>
       </table>
     </div>
