@@ -19,21 +19,19 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
 
     <!-- Menu -->
     <div class="mt-5 w-100">
-        <div class="menu-item text-white d-flex align-items-center">
+        <!-- button Data Pasien -->
+        <a href="main.php" class="menu-item text-white d-flex align-items-center text-decoration-none w-100">
             <i class="fa-solid fa-file-medical"></i>
-            <a
-                href="main.php"
-                class="text-decoration-none text-white w-100">Data Pasien</a>
-        </div>
-        <div class="menu-item text-white d-flex align-items-center mt-3">
+            <span>Data Pasien</span>
+        </a>
+
+        <!-- button Data Dokter -->
+        <a href="mainDokter.php" class="menu-item text-white d-flex align-items-center mt-3 text-decoration-none w-100">
             <i class="fa-solid fa-user-md"></i>
-            <a
-                href="mainDokter.php"
-              class="text-decoration-none text-white w-100"
-              >Data Dokter</a
-            >
-          </div>
-        </div>
+            <span>Data Dokter</span>
+        </a>
+    </div>
+
 
     <!-- Logout Button -->
     <div class="position-absolute bottom-0 mb-5">
@@ -93,16 +91,31 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
 
             if ($pasien):
             ?>
-                <div class="col-md-6">
-                    <h4>Nama: <b><?= htmlspecialchars($pasien["nama_lengkap"]); ?></b></h4>
-                    <h4>Jenis Kelamin: <b><?= htmlspecialchars($pasien["jenis_kelamin"]); ?></b></h4>
-                    <h4>Tanggal Lahir: <b><?= htmlspecialchars($pasien["tanggal_lahir"]); ?></b></h4>
-                </div>
-                <div class="col-md-6">
-                    <h4>Nama Ibu: <b><?= htmlspecialchars($pasien["nama_ibu"]); ?></b></h4>
-                    <h4>Alamat: <b><?= htmlspecialchars($pasien["alamat"]); ?></b></h4>
-                    <h4>No. Telepon: <b><?= htmlspecialchars($pasien["no_telp"]); ?></b></h4>
-                </div>
+            <div class="row justify-content-center flex-grow-1">
+                <table class="table table-borderless w-100 tabel-data-pasien">
+                    <tbody>
+                        <tr>
+                            <td class="col-md-2"><strong>Nama</strong></td>
+                            <td class="col-md-4">: <?= htmlspecialchars($pasien["nama_lengkap"]); ?></td>
+                            <td class="col-md-2"><strong>Nama Ibu</strong></td>
+                            <td class="col-md-4">: <?= htmlspecialchars($pasien["nama_ibu"]); ?></td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-2"><strong>Jenis Kelamin</strong></td>
+                            <td class="col-md-4">: <?= htmlspecialchars($pasien["jenis_kelamin"]); ?></td>
+                            <td class="col-md-2"><strong>Alamat</strong></td>
+                            <td class="col-md-4">: <?= htmlspecialchars($pasien["alamat"]); ?></td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-2"><strong>Tanggal Lahir</strong></td>
+                            <td class="col-md-4">: <?= htmlspecialchars($pasien["tanggal_lahir"]); ?></td>
+                            <td class="col-md-2"><strong>No. Telepon</strong></td>
+                            <td class="col-md-4">: <?= htmlspecialchars($pasien["no_telp"]); ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
         </div>
 
         <!-- Tabel Rekam Medis -->

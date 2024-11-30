@@ -19,19 +19,19 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
 
     <!-- Menu -->
     <div class="mt-5 w-100">
-        <div class="menu-item text-white d-flex align-items-center">
+        <!-- Data Pasien -->
+        <a href="main.php" class="menu-item text-white d-flex align-items-center text-decoration-none w-100">
             <i class="fa-solid fa-file-medical"></i>
-            <a
-                href="main.php"
-                class="text-decoration-none text-white w-100">Data Pasien</a>
-        </div>
-        <div class="menu-item text-white d-flex align-items-center mt-3">
+            <span>Data Pasien</span>
+        </a>
+
+        <!-- Data Dokter -->
+        <a href="mainDokter.php" class="menu-item text-white d-flex align-items-center mt-3 text-decoration-none w-100">
             <i class="fa-solid fa-user-md"></i>
-            <a
-                href="mainDokter.php"
-                class="text-decoration-none text-white w-100">Data Dokter</a>
-        </div>
+            <span>Data Dokter</span>
+        </a>
     </div>
+
 </aside>
 
 <!-- Main Content -->

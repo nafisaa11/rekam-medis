@@ -17,25 +17,23 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
 
   <!-- Menu -->
   <div class="mt-5 w-100">
-    <div class="menu-item text-white d-flex align-items-center">
-      <i class="fa-solid fa-file-medical"></i>
-      <a
-        href="main.php"
-        class="text-decoration-none text-white w-100">
-        Data Pasien
-      </a>
-    </div>
-    <div class="menu-item text-white d-flex align-items-center mt-3">
-      <i class="fa-solid fa-user-md"></i>
-      <a
-        class="text-decoration-none text-white w-100">Data Dokter</a>
-    </div>
-    <div class="menu-item text-white d-flex align-items-center mt-3">
-      <i class="fa-solid fa-plus"></i>
-      <a
-        href="tambahDokter.php"
-        class="text-decoration-none text-white w-100">Tambah Dokter</a>
-    </div>
+    <!-- Data Pasien -->
+    <a href="main.php" class="menu-item text-white d-flex align-items-center text-decoration-none w-100">
+        <i class="fa-solid fa-file-medical"></i>
+        <span>Data Pasien</span>
+    </a>
+
+    <!-- Data Dokter -->
+    <a class="menu-item text-white d-flex align-items-center mt-3 text-decoration-none w-100">
+        <i class="fa-solid fa-user-md"></i>
+        <span>Data Dokter</span>
+    </a>
+    
+    <!-- button Tambah Dokter -->
+    <a href="tambahDokter.php" class="menu-item text-white d-flex align-items-center mt-3 text-decoration-none w-100">
+        <i class="fa-solid fa-plus"></i>
+        <span>Tambah Dokter</span>
+    </a>
   </div>
 
   <!-- Logout Button -->
@@ -144,46 +142,52 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
 
     <!-- Pagination -->
     <nav aria-label="Page navigation">
-      <ul class="pagination justify-content-end">
-        <?php
-        // Tentukan jumlah halaman yang ditampilkan dalam satu waktu
-        $visiblePages = 5;
+        <ul class="pagination justify-content-end">
+            <?php
+            // Tentukan jumlah halaman yang ditampilkan dalam satu waktu
+            $visiblePages = 5;
 
-        // Tentukan awal dan akhir dari rentang halaman
-        $startPage = max(1, $currentPage - floor($visiblePages / 2));
-        $endPage = min($totalPages, $startPage + $visiblePages - 1);
+            // Tentukan awal dan akhir dari rentang halaman
+            $startPage = max(1, $currentPage - floor($visiblePages / 2));
+            $endPage = min($totalPages, $startPage + $visiblePages - 1);
 
-        // Sesuaikan jika berada di akhir halaman
-        if ($endPage - $startPage + 1 < $visiblePages) {
-          $startPage = max(1, $endPage - $visiblePages + 1);
-        }
-        ?>
+            // Sesuaikan jika berada di akhir halaman
+            if ($endPage - $startPage + 1 < $visiblePages) {
+                $startPage = max(1, $endPage - $visiblePages + 1);
+            }
 
-        <!-- Tombol Previous -->
-        <?php if ($currentPage > 1): ?>
-          <li class="page-item">
-            <a class="page-link" href="?page=<?= $currentPage - 1; ?>" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
-            </a>
-          </li>
-        <?php endif; ?>
+            // URL dasar dengan parameter search jika ada
+            $baseUrl = '?';
+            if (isset($_GET['search']) && !empty($_GET['search'])) {
+                $baseUrl .= 'search=' . urlencode($_GET['search']) . '&';
+            }
+            ?>
 
-        <!-- Halaman yang Ditampilkan -->
-        <?php for ($i = $startPage; $i <= $endPage; $i++): ?>
-          <li class="page-item <?= ($i == $currentPage) ? 'active' : ''; ?>">
-            <a class="page-link" href="?page=<?= $i; ?>"><?= $i; ?></a>
-          </li>
-        <?php endfor; ?>
+            <!-- Tombol Previous -->
+            <?php if ($currentPage > 1): ?>
+                <li class="page-item">
+                    <a class="page-link" href="<?= $baseUrl; ?>page=<?= $currentPage - 1; ?>" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            <?php endif; ?>
 
-        <!-- Tombol Next -->
-        <?php if ($currentPage < $totalPages): ?>
-          <li class="page-item">
-            <a class="page-link" href="?page=<?= $currentPage + 1; ?>" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-            </a>
-          </li>
-        <?php endif; ?>
-      </ul>
+            <!-- Halaman yang Ditampilkan -->
+            <?php for ($i = $startPage; $i <= $endPage; $i++): ?>
+                <li class="page-item <?= ($i == $currentPage) ? 'active' : ''; ?>">
+                    <a class="page-link" href="<?= $baseUrl; ?>page=<?= $i; ?>"><?= $i; ?></a>
+                </li>
+            <?php endfor; ?>
+
+            <!-- Tombol Next -->
+            <?php if ($currentPage < $totalPages): ?>
+                <li class="page-item">
+                    <a class="page-link" href="<?= $baseUrl; ?>page=<?= $currentPage + 1; ?>" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            <?php endif; ?>
+        </ul>
     </nav>
 
   </div>
