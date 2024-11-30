@@ -1,3 +1,11 @@
+<?php
+session_start();
+if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
+    header('Location: index.php'); 
+    exit;
+}
+
+?>
 <?php include 'templates/header.php'; ?>
 <aside class="sidebar d-flex flex-column align-items-center p-4 shadow">
     <!-- Admin Profile -->
@@ -21,9 +29,11 @@
             <i class="fa-solid fa-user-md"></i>
             <a
                 href="mainDokter.php"
-                class="text-decoration-none text-white w-100">Data Dokter</a>
+              class="text-decoration-none text-white w-100"
+              >Data Dokter</a
+            >
+          </div>
         </div>
-    </div>
 
     <!-- Logout Button -->
     <div class="position-absolute bottom-0 mb-5">

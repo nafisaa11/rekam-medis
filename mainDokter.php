@@ -1,13 +1,19 @@
-<?php include 'templates/header.php'; ?>
+<?php
+session_start();
+if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
+    header('Location: index.php'); 
+    exit;
+}
+
+?>
+<?php include 'templates/header.php';?>
+
 <aside class="sidebar d-flex flex-column align-items-center p-4 shadow">
-  <!-- Admin Profile -->
-  <div class="d-flex flex-column align-items-center mt-3">
-    <img
-      src="templates/img/gojo.png"
-      alt="Admin Image"
-      class="admin-image rounded-circle shadow" />
-    <h3 class="mt-3">Admin 1</h3>
-  </div>
+    <!-- Admin Profile -->
+    <div class="d-flex flex-column align-items-center mt-3">
+        <img src="templates/img/gojo.png" alt="Admin Image" class="admin-image rounded-circle shadow" />
+        <h3 class="mt-3">Admin 1</h3>
+    </div>
 
   <!-- Menu -->
   <div class="mt-5 w-100">

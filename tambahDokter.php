@@ -1,3 +1,11 @@
+<?php
+session_start();
+if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
+    header('Location: index.php'); 
+    exit;
+}
+
+?>
 <?php include 'templates/header.php'; ?>
 <aside class="sidebar d-flex flex-column align-items-center p-4 shadow">
     <!-- Admin Profile -->

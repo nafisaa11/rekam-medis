@@ -1,3 +1,11 @@
+<?php
+session_start();
+if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
+    header('Location: index.php'); 
+    exit;
+}
+
+?>
 <?php include 'templates/header.php'; ?>
 <aside class="sidebar d-flex flex-column align-items-center p-4 shadow">
   <!-- Admin Profile -->
@@ -9,26 +17,28 @@
     <h3 class="mt-3">Admin 1</h3>
   </div>
 
-  <!-- Menu -->
-  <div class="mt-5 w-100">
-    <div class="menu-item text-white d-flex align-items-center">
-      <i class="fa-solid fa-file-medical"></i>
-      <span>Data Pasien</span>
+    <!-- Menu -->
+    <div class="mt-5 w-100">
+        <div class="menu-item text-white d-flex align-items-center">
+            <i class="fa-solid fa-file-medical"></i>
+            <span>Data Pasien</span>
+        </div>
+        <div class="menu-item text-white d-flex align-items-center mt-3">
+            <i class="fa-solid fa-user-md"></i>
+            <a
+                href="mainDokter.php"
+                class="text-decoration-none text-white w-100"
+            >Data Dokter</a>
+        </div>
     </div>
-    <div class="menu-item text-white d-flex align-items-center mt-3">
-      <i class="fa-solid fa-user-md"></i>
-      <a
-        href="mainDokter.php"
-        class="text-decoration-none text-white w-100">Data Dokter</a>
-    </div>
-  </div>
 
-  <!-- Logout Button -->
-  <div class="position-absolute bottom-0 mb-5">
-    <a href="Rekam_medis" class="logout-btn">
-      <i class="fas fa-sign-out-alt"></i>
-    </a>
-  </div>
+
+        <!-- Logout Button -->
+        <div class="position-absolute bottom-0 mb-5">
+          <a href="logout.php" class="logout-btn">
+            <i class="fas fa-sign-out-alt"></i>
+        </a>
+    </div>
 </aside>
 
 <!-- Main Content -->
