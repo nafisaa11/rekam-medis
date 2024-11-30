@@ -101,7 +101,7 @@ mysqli_close($conn);
         </div>
 
         <!-- Right Section -->
-        <div class="col-md-5 d-flex align-items-center justify-content-center px-5 mt-4">
+        <div class="col-md-5 d-flex align-items-center justify-content-center px-5 mt-4gi">
             <div class="card card-login p-5 w-100 shadow rounded-4">
                 <h2 class="text-center mb-4">Login Admin</h2>
                 <?php if ($error): ?>
