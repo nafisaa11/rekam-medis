@@ -5,7 +5,7 @@
     <img
       src="templates/img/gojo.png"
       alt="Admin Image"
-      class="admin-image rounded-circle shadow"/>
+      class="admin-image rounded-circle shadow" />
     <h3 class="mt-3">Admin 1</h3>
   </div>
 
@@ -44,7 +44,15 @@
 
   <!-- Tabel Pasien -->
   <div class="bg-white px-5 py-4 mt-2 shadow-sm rounded-4">
-    <h2>Data Pasien</h2>
+    <div class="d-flex justify-content-between align-items-center">
+      <h2>Data Pasien</h2>
+      <!-- Search Form -->
+      <form action="" method="GET" class="d-flex w-50">
+        <input type="text" name="search" class="form-control flex-grow-1" placeholder="Cari Pasien..." value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>" />
+        <button type="submit" class="btn custom-btn text-white ms-2">Cari</button>
+      </form>
+    </div>
+
     <div class="table-responsive mt-4">
       <table class="table table-hover">
         <thead class="table-primary">
@@ -65,6 +73,19 @@
 
           // Cek apakah data items tersedia di dalam hasil decode JSON
           if (isset($data['items']) && is_array($data['items'])):
+            // Jika ada pencarian
+            if (isset($_GET['search']) && !empty($_GET['search'])) {
+              $searchTerm = strtolower($_GET['search']);
+              $data['items'] = array_filter($data['items'], function ($item) use ($searchTerm) {
+                // Cari di semua kolom: ID Pasien, Nama, Umur, Jenis Kelamin, Alamat
+                return strpos(strtolower($item['id']), $searchTerm) !== false ||
+                  strpos(strtolower($item['nama_lengkap']), $searchTerm) !== false ||
+                  strpos(strtolower($item['nama_ibu']), $searchTerm) !== false ||
+                  strpos(strtolower($item['tanggal_lahir']), $searchTerm) !== false ||
+                  strpos(strtolower($item['no_telp']), $searchTerm) !== false ||
+                  strpos(strtolower($item['alamat']), $searchTerm) !== false;
+              });
+            }
             // Loop melalui setiap item dalam data items
             foreach ($data['items'] as $item):
           ?>
@@ -93,7 +114,5 @@
 
   </div>
 </main>
-
-</div>
 
 <?php include 'templates/footer.php'; ?>

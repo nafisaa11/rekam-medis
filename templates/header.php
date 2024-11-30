@@ -149,6 +149,14 @@
     .custom-btn:hover {
       background-color: #1976d2;
     }
+
+    /* Konfigurasi pagination */
+    .pagination .page-item.active .page-link,
+    .pagination .page-link:hover {
+      background-color:#2196f3;
+      color: white;
+    }
+
   </style>
 </head>
 

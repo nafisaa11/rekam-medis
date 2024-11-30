@@ -53,7 +53,16 @@
 
   <!-- Tabel Dokter -->
   <div class="bg-white px-5 py-4 mt-2 shadow-sm rounded-4">
-    <h2>Data Dokter</h2>
+    <div class="d-flex justify-content-between align-items-center">
+      <h2 class="mb-0">Data Dokter</h2>
+
+      <!-- Search Form -->
+      <form action="" method="GET" class="d-flex w-50">
+        <input type="text" name="search" class="form-control" placeholder="Cari Pasien..." value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>" />
+        <button type="submit" class="btn custom-btn text-white ms-2">Cari</button>
+      </form>
+    </div>
+
     <div class="table-responsive mt-4">
       <table class="table table-hover">
         <thead class="table-primary">
@@ -71,6 +80,19 @@
           // API URL
           $apiUrl = "http://202.10.36.253:3001/api/dokter";
           $data = json_decode(file_get_contents($apiUrl), true);
+
+          // Search Functionality
+          if (isset($_GET['search']) && !empty($_GET['search'])) {
+            $searchTerm = strtolower($_GET['search']);
+            $data['payload'] = array_filter($data['payload'], function ($row) use ($searchTerm) {
+              // Cari di semua kolom: ID_Dokter, Nama, Spesialisasi, Alamat, No_Hp
+              return strpos(strtolower($row['ID_Dokter']), $searchTerm) !== false ||
+                strpos(strtolower($row['Nama']), $searchTerm) !== false ||
+                strpos(strtolower($row['Spesialisasi']), $searchTerm) !== false ||
+                strpos(strtolower($row['Alamat']), $searchTerm) !== false ||
+                strpos(strtolower($row['No_Hp']), $searchTerm) !== false;
+            });
+          }
 
           // Pagination Variables
           $itemsPerPage = 5; // Jumlah data per halaman
@@ -161,6 +183,5 @@
 
   </div>
 </main>
-
 
 <?php include 'templates/footer.php'; ?>
