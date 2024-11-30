@@ -144,12 +144,18 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
                 if ($endPage - $startPage + 1 < $visiblePages) {
                     $startPage = max(1, $endPage - $visiblePages + 1);
                 }
+
+                // URL dasar dengan parameter search jika ada
+                $baseUrl = '?';
+                if (isset($_GET['search']) && !empty($_GET['search'])) {
+                    $baseUrl .= 'search=' . urlencode($_GET['search']) . '&';
+                }
                 ?>
 
                 <!-- Tombol Previous -->
                 <?php if ($currentPage > 1): ?>
                     <li class="page-item">
-                        <a class="page-link" href="?page=<?= $currentPage - 1; ?>" aria-label="Previous">
+                        <a class="page-link" href="<?= $baseUrl; ?>page=<?= $currentPage - 1; ?>" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
@@ -158,20 +164,21 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
                 <!-- Halaman yang Ditampilkan -->
                 <?php for ($i = $startPage; $i <= $endPage; $i++): ?>
                     <li class="page-item <?= ($i == $currentPage) ? 'active' : ''; ?>">
-                        <a class="page-link" href="?page=<?= $i; ?>"><?= $i; ?></a>
+                        <a class="page-link" href="<?= $baseUrl; ?>page=<?= $i; ?>"><?= $i; ?></a>
                     </li>
                 <?php endfor; ?>
 
                 <!-- Tombol Next -->
                 <?php if ($currentPage < $totalPages): ?>
                     <li class="page-item">
-                        <a class="page-link" href="?page=<?= $currentPage + 1; ?>" aria-label="Next">
+                        <a class="page-link" href="<?= $baseUrl; ?>page=<?= $currentPage + 1; ?>" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
                 <?php endif; ?>
             </ul>
         </nav>
+
     </div>
 </main>
 
