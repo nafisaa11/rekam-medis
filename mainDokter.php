@@ -121,9 +121,11 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
                 <td class="text-center"><?= $row["Alamat"]; ?></td>
                 <td class="text-center"><?= $row["No_Hp"]; ?></td>
                 <td class="d-flex justify-content-evenly pe-3">
-                  <a href="editDokter.php/<?= htmlspecialchars($row['ID_Dokter']); ?>" style="text-decoration: none;">
+                  <a href="#" class="btn-edit-dokter" data-bs-toggle="modal" data-bs-target="#editDokterModal" data-id="<?= htmlspecialchars($row['ID_Dokter']); ?>" style="text-decoration: none;">
                     <i class="fa-solid fa-pen-to-square fa-lg me-2"></i>
                   </a>
+
+
                   <a href="controllers/dokterController.php?ID_Dokter=<?= htmlspecialchars($row['ID_Dokter'] ?? '', ENT_QUOTES) ?>"
                     class="btn btn-danger btn-sm"
                     onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
@@ -194,7 +196,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
   </div>
 </main>
 
-<!-- Modal -->
+<!-- Modal Tambah Dokter-->
 <div class="modal fade" id="tambahDokterModal" tabindex="-1" aria-labelledby="tambahDokterModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -204,7 +206,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
       </div>
       <div class="modal-body px-5">
         <form action="" method="post">
-          
+
           <!-- Nama -->
           <div class="mb-3">
             <label for="nama" class="form-label">Nama</label>
@@ -277,5 +279,93 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
     </div>
   </div>
 </div>
+
+<!-- Modal Edit Dokter -->
+<div class="modal fade" id="editDokterModal" tabindex="-1" aria-labelledby="editDokterModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div style="background-color: #2196f3;" class="modal-header text-white">
+        <h5 class="modal-title px-4" id="editDokterModalLabel">Edit Data Dokter</h5>
+        <button type="button" class="btn-close text-white me-4" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body px-5">
+        <form id="editDokterForm" action="" method="post">
+
+          <!-- Hidden ID for dokter -->
+          <input type="hidden" id="edit_id_dokter" name="ID_Dokter">
+
+          <!-- Nama -->
+          <div class="mb-3">
+            <label for="edit_nama" class="form-label">Nama</label>
+            <input type="text" id="edit_nama" name="Nama" class="form-control" placeholder="ex: AURA SASI KIRANA" required>
+          </div>
+
+          <!-- Email -->
+          <div class="mb-3">
+            <label for="edit_email" class="form-label">E-mail</label>
+            <input type="email" id="edit_email" name="Email" class="form-control" placeholder="ex: aurasasi@mail.com">
+          </div>
+
+          <!-- Jenis Kelamin dan Tanggal Lahir -->
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label class="form-label">Jenis Kelamin</label>
+              <div class="d-flex gap-3">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="Jenis_Kelamin" id="edit_laki-laki" value="Laki - laki" required>
+                  <label class="form-check-label" for="edit_laki-laki">Laki-laki</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="Jenis_Kelamin" id="edit_perempuan" value="Perempuan" required>
+                  <label class="form-check-label" for="edit_perempuan">Perempuan</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="edit_tanggal-lahir" class="form-label">Tanggal Lahir</label>
+              <input type="date" id="edit_tanggal-lahir" name="Tanggal_Lahir" class="form-control" required>
+            </div>
+          </div>
+
+          <!-- Alamat -->
+          <div class="mb-3">
+            <label for="edit_alamat" class="form-label">Alamat</label>
+            <textarea id="edit_alamat" name="Alamat" class="form-control" rows="3" required></textarea>
+          </div>
+
+          <!-- NPI dan Nomor HP -->
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="edit_npi" class="form-label">NPI</label>
+              <input type="text" id="edit_npi" name="NPI" class="form-control" placeholder="123456789" required>
+            </div>
+            <div class="col-md-6">
+              <label for="edit_no-hp" class="form-label">Nomor HP</label>
+              <input type="text" id="edit_no-hp" name="No_Hp" class="form-control" placeholder="0812345xxxxx" required>
+            </div>
+          </div>
+
+          <!-- Spesialisasi dan Tanggal Lisensi -->
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="edit_spesialisasi" class="form-label">Spesialisasi</label>
+              <input type="text" id="edit_spesialisasi" name="Spesialisasi" class="form-control" placeholder="ex: Spesialis Jantung">
+            </div>
+            <div class="col-md-6">
+              <label for="edit_tanggal-lisensi" class="form-label">Tanggal Lisensi</label>
+              <input type="date" id="edit_tanggal-lisensi" name="Tanggal_Lisensi" class="form-control" required>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="text-end my-4">
+            <button type="submit" name="simpanDokter" class="btn btn-primary">Simpan Perubahan</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <?php include 'templates/footer.php'; ?>
