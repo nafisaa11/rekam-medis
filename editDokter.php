@@ -4,33 +4,9 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
     header('Location: index.php'); 
     exit;
 }
-
 ?>
 <?php include 'templates/header.php'; ?>
-<?php
-// URL API
-$Url = 'http://202.10.36.253:3001/api/dokter/';
-
-// Ambil ID dokter dari URL
-$idDokter = isset($_GET['ID_Dokter']) ? $_GET['ID_Dokter'] : null;
-
-if ($idDokter) {
-    // Inisialisasi cURL untuk mengambil data dokter berdasarkan ID
-    $ch = curl_init($Url . $idDokter);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $response = curl_exec($ch);
-    curl_close($ch);
-
-    // Konversi response JSON ke array
-    $dokter = json_decode($response, true);
-
-    if ($response === false || !$dokter) {
-        die("Gagal mengambil data dokter dari API.");
-    }
-} else {
-    die("ID Dokter tidak ditemukan pada URL.");
-}
-?>
+<?php include 'controllers/editDokter.php'; ?>
 
     <aside class="sidebar d-flex flex-column align-items-center p-4">
         <!-- Admin Profile -->
@@ -79,7 +55,7 @@ if ($idDokter) {
 
                 <form action="editDokter.php" method="POST">
                     <!-- ID Dokter -->
-                    <input type="hidden" value="<?php echo htmlspecialchars($dokter['ID_Dokter']); ?>">
+                    <input type="hidden" name="ID_Dokter" value="<?php echo htmlspecialchars($dokter['ID_Dokter']); ?>">
 
                     <!-- Nama -->
                     <div class="mb-3">
@@ -152,6 +128,7 @@ if ($idDokter) {
                         <button type="submit" name="simpanDokter" class="btn btn-primary px-4 py-2">Simpan Perubahan</button>
                     </div>
                 </form>
+
                 </div>
             </div>
         </main>

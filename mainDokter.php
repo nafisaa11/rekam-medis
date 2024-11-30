@@ -7,6 +7,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
 
 ?>
 <?php include 'controllers/dokterController.php';?>
+<?php include 'controllers/dataDokter.php';?>
 <?php include 'templates/header.php';?>
 
 <aside class="sidebar d-flex flex-column align-items-center py-4 px-3 shadow">
@@ -69,78 +70,50 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
     </div>
 
     <div class="table-responsive mt-4">
-      <table class="table table-hover">
-        <thead class="table-primary">
-          <tr>
-            <th class="text-center">ID Dokter</th>
-            <th class="text-center">Nama</th>
-            <th class="text-center">Spesialisasi</th>
-            <th class="text-center">Alamat</th>
-            <th class="text-center">No HP</th>
-            <th class="text-center">Aksi</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php
-          // API URL
-          $apiUrl = "http://202.10.36.253:3001/api/dokter";
-          $data = json_decode(file_get_contents($apiUrl), true);
+    <table class="table table-hover">
+      <thead class="table-primary">
+        <tr>
+          <th class="text-center">ID Dokter</th>
+          <th class="text-center">Nama</th>
+          <th class="text-center">Spesialisasi</th>
+          <th class="text-center">Alamat</th>
+          <th class="text-center">No HP</th>
+          <th class="text-center">Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php if (!empty($rows)): ?>
+            <?php foreach ($rows as $row): ?>
+                <tr>
+                    <td class="text-center"><?= htmlspecialchars($row["ID_Dokter"]); ?></td>
+                    <td class="text-center"><?= htmlspecialchars($row["Nama"]); ?></td>
+                    <td class="text-center"><?= htmlspecialchars($row["Spesialisasi"]); ?></td>
+                    <td class="text-center"><?= htmlspecialchars($row["Alamat"]); ?></td>
+                    <td class="text-center"><?= htmlspecialchars($row["No_Hp"]); ?></td>
+                    <td class="d-flex justify-content-evenly pe-3">
+                        <!-- Edit Button -->
+                        <a href="editDokter.php?id_dokter=<?= htmlspecialchars($row['ID_Dokter']); ?>" class="btn-edit-dokter" style="text-decoration: none;">
+                            <i class="fa-solid fa-pen-to-square fa-lg me-2"></i>
+                        </a>
 
-          // Search Functionality
-          if (isset($_GET['search']) && !empty($_GET['search'])) {
-            $searchTerm = strtolower($_GET['search']);
-            $data['payload'] = array_filter($data['payload'], function ($row) use ($searchTerm) {
-              // Cari di semua kolom: ID_Dokter, Nama, Spesialisasi, Alamat, No_Hp
-              return strpos(strtolower($row['ID_Dokter']), $searchTerm) !== false ||
-                strpos(strtolower($row['Nama']), $searchTerm) !== false ||
-                strpos(strtolower($row['Spesialisasi']), $searchTerm) !== false ||
-                strpos(strtolower($row['Alamat']), $searchTerm) !== false ||
-                strpos(strtolower($row['No_Hp']), $searchTerm) !== false;
-            });
-          }
+                        <!-- Delete Button -->
+                        <a href="controllers/dokterController.php?ID_Dokter=<?= htmlspecialchars($row['ID_Dokter'], ENT_QUOTES) ?>" 
+                            class="btn btn-danger btn-sm" 
+                            onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                            <i class="fas fa-trash hover:text-red-800 text-lg cursor-pointer"></i>
+                        </a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <tr>
+                <td colspan="6" class="text-center">Data Dokter tidak tersedia.</td>
+            </tr>
+        <?php endif; ?>
+    </tbody>
 
-          // Pagination Variables
-          $itemsPerPage = 5; // Jumlah data per halaman
-          $totalItems = isset($data['payload']) ? count($data['payload']) : 0; // Total data
-          $totalPages = ceil($totalItems / $itemsPerPage); // Total halaman
-          $currentPage = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1; // Halaman aktif
-          $currentPage = max(1, min($currentPage, $totalPages)); // Validasi halaman aktif
+    </table>
 
-          // Data yang ditampilkan per halaman
-          $offset = ($currentPage - 1) * $itemsPerPage;
-          $paginatedData = isset($data['payload']) ? array_slice($data['payload'], $offset, $itemsPerPage) : [];
-
-          // Loop data pasien
-          if (!empty($paginatedData)):
-            foreach ($paginatedData as $row):
-          ?>
-              <tr>
-                <td class="text-center ps-3"><?= $row["ID_Dokter"]; ?></td>
-                <td class="text-center"><?= $row["Nama"]; ?></td>
-                <td class="text-center"><?= $row["Spesialisasi"]; ?></td>
-                <td class="text-center"><?= $row["Alamat"]; ?></td>
-                <td class="text-center"><?= $row["No_Hp"]; ?></td>
-                <td class="d-flex justify-content-evenly pe-3">
-                  <a href="#" class="btn-edit-dokter" data-bs-toggle="modal" data-bs-target="#editDokterModal" data-id="<?= htmlspecialchars($row['ID_Dokter']); ?>" style="text-decoration: none;">
-                    <i class="fa-solid fa-pen-to-square fa-lg me-2"></i>
-                  </a>
-
-
-                  <a href="controllers/dokterController.php?ID_Dokter=<?= htmlspecialchars($row['ID_Dokter'] ?? '', ENT_QUOTES) ?>"
-                    class="btn btn-danger btn-sm"
-                    onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
-                    <i class="fas fa-trash hover:text-red-800 text-lg cursor-pointer"></i>
-                  </a>
-                </td>
-              </tr>
-          <?php
-            endforeach;
-          else:
-            echo "<tr><td colspan='6' class='text-center'>Data Dokter tidak tersedia.</td></tr>";
-          endif;
-          ?>
-        </tbody>
-      </table>
     </div>
 
     <!-- Pagination -->

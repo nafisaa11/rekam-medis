@@ -52,7 +52,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
   </div>
 
   <!-- Tabel Pasien -->
-  <div class="bg-white px-5 py-4 mt-2 shadow-sm rounded-4">
+  <div class="bg-white px-5 py-4 mt-2 shadow rounded-4">
     <div class="d-flex justify-content-between align-items-center">
       <h2 class="mb-0">Data Pasien</h2>
       <!-- Search Form -->

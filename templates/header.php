@@ -73,7 +73,7 @@
     }
 
     body {
-      background: linear-gradient(to right, #e3f2fd, #bbdefb);
+      background: linear-gradient(to right, #e3f2fd, #D8ECFD);
     }
 
     /* Konfigurasi sidebar */

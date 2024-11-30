@@ -27,39 +27,37 @@
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     
      <script>
-      document.addEventListener("DOMContentLoaded", function () {
-      // Tambahkan event listener pada tombol edit dokter
-      document.querySelectorAll(".btn-edit-dokter").forEach((button) => {
-        button.addEventListener("click", function () {
-          const dokterId = this.dataset.id; // Ambil ID dokter dari data-id atribut
+      $(document).on('click', '.editDokterBtn', function() {
+    var id_dokter = $(this).data('id'); // Ambil ID Dokter dari atribut data-id
 
-          // Ambil data dokter dari API
-          fetch(`http://202.10.36.253:3001/api/dokter/${dokterId}`)
-            .then((response) => response.json())
-            .then((data) => {
-              // Isi modal dengan data dokter
-              document.getElementById("edit_id_dokter").value = data.ID_Dokter;
-              document.getElementById("edit_nama").value = data.Nama;
-              document.getElementById("edit_email").value = data.Email;
-              document.getElementById("edit_npi").value = data.NPI;
-              document.getElementById("edit_no-hp").value = data.No_Hp;
-              document.getElementById("edit_alamat").value = data.Alamat;
-              document.getElementById("edit_spesialisasi").value = data.Spesialisasi;
-              document.getElementById("edit_tanggal-lisensi").value = data.Tanggal_Lisensi;
-              document.getElementById("edit_tanggal-lahir").value = data.Tanggal_Lahir;
+    $.ajax({
+        url: "../controllers/editDokter.php", // URL untuk mengambil data dokter
+        method: "POST",
+        data: { id_dokter: id_dokter }, // Kirim ID dokter ke server
+        dataType: "json", // Format data yang diharapkan dari server
+        success: function(data) {
+            if (data) {
+                // Isi data ke dalam form modal
+                $('#edit-id').val(data.ID_Dokter);
+                $('#edit-nama').val(data.Nama);
+                $('#edit-email').val(data.Email);
+                $('#edit-telepon').val(data.No_Hp);
+                $('#edit-tgl_lahir').val(data.Tanggal_Lahir);
+                $('#edit-npi').val(data.NPI);
+                $('#edit-spesialisasi').val(data.Spesialisasi);
+                $('#edit-tanggal-lisensi').val(data.Tanggal_Lisensi);
 
-              // Set gender radio button
-              document.querySelector(
-                `input[name="Jenis_Kelamin"][value="${data.Jenis_Kelamin}"]`
-              ).checked = true;
-            })
-            .catch((error) => {
-              console.error("Error fetching dokter data:", error);
-              alert("Gagal memuat data dokter.");
-            });
-        });
-      });
+                // Tampilkan modal
+                $('#editDokterModal').modal('show');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("Terjadi kesalahan: " + error);
+        }
     });
+});
+
+
 
 
      </script>
