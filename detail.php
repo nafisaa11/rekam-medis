@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
-    header('Location: index.php'); 
+    header('Location: index.php');
     exit;
 }
 
@@ -10,10 +10,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
 <aside class="sidebar d-flex flex-column align-items-center p-4 shadow">
     <!-- Admin Profile -->
     <div class="d-flex flex-column align-items-center mt-3">
-        <img
-            src="templates/img/gojo.png"
-            alt="Admin Image"
-            class="admin-image rounded-circle shadow" />
+        <img src="templates/img/gojo.png" alt="Admin Image" class="admin-image rounded-circle shadow" />
         <h3 class="mt-3">Admin 1</h3>
     </div>
 
@@ -44,11 +41,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
 <!-- Main Content -->
 <main class="flex-grow-1 px-5 pt-5">
     <div class="d-flex align-items-center mb-4">
-        <img
-            src="templates/img/Shield.png"
-            alt="Shield Logo"
-            class="me-2"
-            style="width: 60px; height: auto" />
+        <img src="templates/img/Shield.png" alt="Shield Logo" class="me-2" style="width: 60px; height: auto" />
         <h1 class="text-dark mb-0">PENS HOSPITAL</h1>
     </div>
 
@@ -90,39 +83,38 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
             }
 
             if ($pasien):
-            ?>
-            <div class="row justify-content-center flex-grow-1">
-                <table class="table table-borderless w-100 tabel-data-pasien">
-                    <tbody>
-                        <tr>
-                            <td class="col-md-2"><strong>Nama</strong></td>
-                            <td class="col-md-4">: <?= htmlspecialchars($pasien["nama_lengkap"]); ?></td>
-                            <td class="col-md-2"><strong>Nama Ibu</strong></td>
-                            <td class="col-md-4">: <?= htmlspecialchars($pasien["nama_ibu"]); ?></td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-2"><strong>Jenis Kelamin</strong></td>
-                            <td class="col-md-4">: <?= htmlspecialchars($pasien["jenis_kelamin"]); ?></td>
-                            <td class="col-md-2"><strong>Alamat</strong></td>
-                            <td class="col-md-4">: <?= htmlspecialchars($pasien["alamat"]); ?></td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-2"><strong>Tanggal Lahir</strong></td>
-                            <td class="col-md-4">: <?= htmlspecialchars($pasien["tanggal_lahir"]); ?></td>
-                            <td class="col-md-2"><strong>No. Telepon</strong></td>
-                            <td class="col-md-4">: <?= htmlspecialchars($pasien["no_telp"]); ?></td>
-                        </tr>
-                    </tbody>
-                </table>
+                ?>
+                <div class="row justify-content-center flex-grow-1">
+                    <table class="table table-borderless w-100 tabel-data-pasien">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-2"><strong>Nama</strong></td>
+                                <td class="col-md-4">: <?= htmlspecialchars($pasien["nama_lengkap"]); ?></td>
+                                <td class="col-md-2"><strong>Nama Ibu</strong></td>
+                                <td class="col-md-4">: <?= htmlspecialchars($pasien["nama_ibu"]); ?></td>
+                            </tr>
+                            <tr>
+                                <td class="col-md-2"><strong>Jenis Kelamin</strong></td>
+                                <td class="col-md-4">: <?= htmlspecialchars($pasien["jenis_kelamin"]); ?></td>
+                                <td class="col-md-2"><strong>Alamat</strong></td>
+                                <td class="col-md-4">: <?= htmlspecialchars($pasien["alamat"]); ?></td>
+                            </tr>
+                            <tr>
+                                <td class="col-md-2"><strong>Tanggal Lahir</strong></td>
+                                <td class="col-md-4">: <?= htmlspecialchars($pasien["tanggal_lahir"]); ?></td>
+                                <td class="col-md-2"><strong>No. Telepon</strong></td>
+                                <td class="col-md-4">: <?= htmlspecialchars($pasien["no_telp"]); ?></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
 
-        </div>
-
-        <!-- Tabel Rekam Medis -->
-        <div class="rounded-4 px-4 py-4 shadow-sm" style="background-color: #e3f2fd;">
+            <!-- Tabel Rekam Medis -->
             <div class="table-responsive">
                 <table class="table table-hover">
-                    <thead class="table" style="background-color: #bbdefb;">
+                    <thead class="table-primary">
                         <tr>
                             <th class="text-center">No</th>
                             <th class="text-center">Tanggal</th>
@@ -139,6 +131,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
                         $dataJadwal = json_decode(file_get_contents($apiUrlJadwal), true);
                         $dataDokter = json_decode(file_get_contents($apiUrlDokter), true);
                         $dataResep = json_decode(file_get_contents($apiUrlResep), true);
+
 
                         // Buat map dokter
                         $dokterMap = [];
@@ -163,11 +156,14 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
                             }
                         }
 
-                        //buat map resep
-                        $resepMap = [];
-                        if (isset($dataResep['items']) && is_array($dataResep['items'])) {
-                            foreach ($dataResep['items'] as $resep) {
-                                $resepMap[$resep['id']] = $resep;
+                        $dataObat = json_decode(file_get_contents($apiUrlObat), true);
+
+                        // Buat map obat
+                        $obatMap = [];
+                        if (isset($dataObat['items']) && is_array($dataObat['items'])) {
+                            foreach ($dataObat['items'] as $obat) {
+                                $obatMap[$obat['resep']][] = $obat; // Group by resep ID
+
                             }
                         }
 
@@ -198,21 +194,25 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
                                 $catatan = $diagnosa['catatan'] ?? '-';
                                 $dokterNama = $dokterMap[$medis['dokter']] ?? 'Dokter Tidak Ditemukan';
                                 $resep = $resepMap[$diagnosa['id']] ?? null;
-                        ?>
+                                $obatList = $resep ? ($obatMap[$resep['id']] ?? []) : [];
+                                ?>
+=
                                 <tr>
                                     <td class="text-center"><?= $no; ?></td>
                                     <td class="text-center"><?= htmlspecialchars($medis["tanggal"]); ?></td>
                                     <td class="text-center"><?= htmlspecialchars($dokterNama); ?></td>
                                     <td class="text-center"><?= htmlspecialchars($keluhan); ?></td>
                                     <td class="text-center">
-                                        <button class="btn btn-sm custom-btn text-white" data-bs-toggle="modal" data-bs-target="#rekamMedisModal<?= $no; ?>">
+                                        <button class="btn btn-sm custom-btn text-white" data-bs-toggle="modal"
+                                            data-bs-target="#rekamMedisModal<?= $no; ?>">
                                             Detail
                                         </button>
                                     </td>
                                 </tr>
 
                                 <!-- Modal -->
-                                <div class="modal fade" id="rekamMedisModal<?= $no; ?>" tabindex="-1" aria-labelledby="rekamMedisModalLabel<?= $no; ?>" aria-hidden="true">
+                                <div class="modal fade" id="rekamMedisModal<?= $no; ?>" tabindex="-1"
+                                    aria-labelledby="rekamMedisModalLabel<?= $no; ?>" aria-hidden="true">
                                     <div class="modal-dialog modal-lg">
                                         <div class="modal-content px-4 py-3">
                                             <div class="modal-header">
@@ -270,9 +270,9 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
                                                         </div>
                                                     </div>
                                                     <div class="row mb-3 align-items-center">
-                                                        <label for="resep" class="col-sm-3 col-form-label">Resep</label>
+                                                        <label for="obat" class="col-sm-3 col-form-label">Obat</label>
                                                         <div class="col-sm-9">
-                                                            <input type="text" class="form-control" id="resep" value="<?= $resep ? htmlspecialchars($resep['resep']) : '-'; ?>" disabled>
+                                                            <input type="text" class="form-control" id="obat" value="<?= $obat ? htmlspecialchars($obat['nama_obat']) : '-'; ?>" disabled>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -284,7 +284,8 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
                                     </div>
                                 </div>
 
-                            <?php
+
+                                <?php
                                 $no++;
                             endforeach;
                         else:
@@ -296,10 +297,9 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
                     </tbody>
                 </table>
             </div>
-        </div>
-    <?php else: ?>
-        <p>Data pasien tidak ditemukan.</p>
-    <?php endif; ?>
+        <?php else: ?>
+            <p>Data pasien tidak ditemukan.</p>
+        <?php endif; ?>
     </div>
     </div>
 </main>

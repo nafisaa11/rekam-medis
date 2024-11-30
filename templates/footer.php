@@ -25,41 +25,5 @@
     <!-- Script buat Modal Edit Dokter -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-    
-     <script>
-      $(document).on('click', '.editDokterBtn', function() {
-    var id_dokter = $(this).data('id'); // Ambil ID Dokter dari atribut data-id
-
-    $.ajax({
-        url: "../controllers/editDokter.php", // URL untuk mengambil data dokter
-        method: "POST",
-        data: { id_dokter: id_dokter }, // Kirim ID dokter ke server
-        dataType: "json", // Format data yang diharapkan dari server
-        success: function(data) {
-            if (data) {
-                // Isi data ke dalam form modal
-                $('#edit-id').val(data.ID_Dokter);
-                $('#edit-nama').val(data.Nama);
-                $('#edit-email').val(data.Email);
-                $('#edit-telepon').val(data.No_Hp);
-                $('#edit-tgl_lahir').val(data.Tanggal_Lahir);
-                $('#edit-npi').val(data.NPI);
-                $('#edit-spesialisasi').val(data.Spesialisasi);
-                $('#edit-tanggal-lisensi').val(data.Tanggal_Lisensi);
-
-                // Tampilkan modal
-                $('#editDokterModal').modal('show');
-            }
-        },
-        error: function(xhr, status, error) {
-            console.error("Terjadi kesalahan: " + error);
-        }
-    });
-});
-
-
-
-
-     </script>
   </body>
 </html>
