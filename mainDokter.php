@@ -6,9 +6,10 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
 }
 
 ?>
+<?php include 'controllers/dokterController.php';?>
 <?php include 'templates/header.php';?>
 
-<aside class="sidebar d-flex flex-column align-items-center p-4 shadow">
+<aside class="sidebar d-flex flex-column align-items-center py-4 px-3 shadow">
     <!-- Admin Profile -->
     <div class="d-flex flex-column align-items-center mt-3">
         <img src="templates/img/gojo.png" alt="Admin Image" class="admin-image rounded-circle shadow" />
@@ -30,15 +31,15 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
     </a>
     
     <!-- button Tambah Dokter -->
-    <a href="tambahDokter.php" class="menu-item text-white d-flex align-items-center mt-3 text-decoration-none w-100">
+    <button type="button" class="btn btn-none menu-item text-white d-flex align-items-center mt-3 px-3 py-2text-decoration-none w-100" data-bs-toggle="modal" data-bs-target="#tambahDokterModal">
         <i class="fa-solid fa-plus"></i>
-        <span>Tambah Dokter</span>
-    </a>
+        <label>Tambah Dokter</label>
+    </button>
   </div>
 
   <!-- Logout Button -->
   <div class="position-absolute bottom-0 mb-5">
-    <a href="Rekam_medis" class="logout-btn">
+    <a href="logout.php" class="logout-btn">
       <i class="fas fa-sign-out-alt"></i>
     </a>
   </div>
@@ -192,5 +193,89 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
 
   </div>
 </main>
+
+<!-- Modal -->
+<div class="modal fade" id="tambahDokterModal" tabindex="-1" aria-labelledby="tambahDokterModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div style="background-color: #2196f3;" class="modal-header text-white">
+        <h5 class="modal-title px-4" id="tambahDokterModalLabel">Tambah Data Dokter</h5>
+        <button type="button" class="btn-close text-white me-4" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body px-5">
+        <form action="" method="post">
+          
+          <!-- Nama -->
+          <div class="mb-3">
+            <label for="nama" class="form-label">Nama</label>
+            <input type="text" id="nama" name="Nama" class="form-control" placeholder="ex: AURA SASI KIRANA" required>
+          </div>
+
+          <!-- Email -->
+          <div class="mb-3">
+            <label for="email" class="form-label">E-mail</label>
+            <input type="email" id="email" name="Email" class="form-control" placeholder="ex: aurasasi@mail.com">
+          </div>
+
+          <!-- Jenis Kelamin dan Tanggal Lahir -->
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label class="form-label">Jenis Kelamin</label>
+              <div class="d-flex gap-3">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="Jenis_Kelamin" id="laki-laki" value="Laki - laki" required>
+                  <label class="form-check-label" for="laki-laki">Laki-laki</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="Jenis_Kelamin" id="perempuan" value="Perempuan" required>
+                  <label class="form-check-label" for="perempuan">Perempuan</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="tanggal-lahir" class="form-label">Tanggal Lahir</label>
+              <input type="date" id="tanggal-lahir" name="Tanggal_Lahir" class="form-control" required>
+            </div>
+          </div>
+
+          <!-- Alamat -->
+          <div class="mb-3">
+            <label for="alamat" class="form-label">Alamat</label>
+            <textarea id="alamat" name="Alamat" class="form-control" rows="3" required></textarea>
+          </div>
+
+          <!-- NPI dan Nomor HP -->
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="npi" class="form-label">NPI</label>
+              <input type="text" id="npi" name="NPI" class="form-control" placeholder="123456789" required>
+            </div>
+            <div class="col-md-6">
+              <label for="no-hp" class="form-label">Nomor HP</label>
+              <input type="text" id="no-hp" name="No_Hp" class="form-control" placeholder="0812345xxxxx" required>
+            </div>
+          </div>
+
+          <!-- Spesialisasi dan Tanggal Lisensi -->
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="spesialisasi" class="form-label">Spesialisasi</label>
+              <input type="text" id="spesialisasi" name="Spesialisasi" class="form-control" placeholder="ex: Spesialis Jantung">
+            </div>
+            <div class="col-md-6">
+              <label for="tanggal-lisensi" class="form-label">Tanggal Lisensi</label>
+              <input type="date" id="tanggal-lisensi" name="Tanggal_Lisensi" class="form-control" required>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="text-end my-4">
+            <button type="submit" name="simpanDokter" class="btn btn-primary">Tambah Dokter</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 <?php include 'templates/footer.php'; ?>
