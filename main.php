@@ -68,9 +68,9 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
           <tr>
             <th class="text-center ps-3">ID Pasien</th>
             <th class="text-center">Nama</th>
-            <th class="text-center">Umur</th>
-            <th class="text-center">Jenis Kelamin</th>
-            <th class="text-center">Alamat</th>
+            <th class="text-center">Nama Ibu</th>
+            <th class="text-center">Tanggal Lahir</th>
+            <th class="text-center">No_HP</th>
             <th class="text-center pe-3">Aksi</th>
           </tr>
         </thead>
@@ -86,13 +86,12 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
             if (isset($_GET['search']) && !empty($_GET['search'])) {
               $searchTerm = strtolower($_GET['search']);
               $data['items'] = array_filter($data['items'], function ($item) use ($searchTerm) {
-                // Cari di semua kolom: ID Pasien, Nama, Umur, Jenis Kelamin, Alamat
+                // Cari di semua kolom
                 return strpos(strtolower($item['id']), $searchTerm) !== false ||
                   strpos(strtolower($item['nama_lengkap']), $searchTerm) !== false ||
                   strpos(strtolower($item['nama_ibu']), $searchTerm) !== false ||
                   strpos(strtolower($item['tanggal_lahir']), $searchTerm) !== false ||
-                  strpos(strtolower($item['no_telp']), $searchTerm) !== false ||
-                  strpos(strtolower($item['alamat']), $searchTerm) !== false;
+                  strpos(strtolower($item['no_telp']), $searchTerm) !== false;
               });
             }
             // Loop melalui setiap item dalam data items
