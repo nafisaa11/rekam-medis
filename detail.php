@@ -52,13 +52,13 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
         <h1 class="text-dark mb-0">PENS HOSPITAL</h1>
     </div>
 
-    <div class="bg-white rounded-4 px-5 py-4 shadow-sm">
+    <div class="bg-white rounded-4 px-4 py-4 shadow-sm">
         <div class="text-center mb-4">
             <h2>Rekam Medis Pasien</h2>
         </div>
 
         <!-- Informasi Pasien -->
-        <div class="row mb-4">
+        <div class="row mb-4 px-4">
             <?php
             $id_pasien = isset($_GET['id']) ? $_GET['id'] : null;
 
@@ -119,163 +119,165 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
         </div>
 
         <!-- Tabel Rekam Medis -->
-        <div class="table-responsive">
-            <table class="table table-hover">
-                <thead class="table-primary">
-                    <tr>
-                        <th class="text-center">No</th>
-                        <th class="text-center">Tanggal</th>
-                        <th class="text-center">Dokter</th>
-                        <th class="text-center">Keluhan</th>
-                        <th class="text-center">Detail</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    // Ambil data API lainnya
-                    $dataPendaftaran = json_decode(file_get_contents($apiUrlPendaftaran), true);
-                    $dataDiagnosa = json_decode(file_get_contents($apiUrlDiagnosa), true);
-                    $dataJadwal = json_decode(file_get_contents($apiUrlJadwal), true);
-                    $dataDokter = json_decode(file_get_contents($apiUrlDokter), true);
-                    $dataResep = json_decode(file_get_contents($apiUrlResep), true);
+        <div class="rounded-4 px-4 py-4 shadow-sm" style="background-color: #e3f2fd;">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table" style="background-color: #bbdefb;">
+                        <tr>
+                            <th class="text-center">No</th>
+                            <th class="text-center">Tanggal</th>
+                            <th class="text-center">Dokter</th>
+                            <th class="text-center">Keluhan</th>
+                            <th class="text-center">Detail</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        // Ambil data API lainnya
+                        $dataPendaftaran = json_decode(file_get_contents($apiUrlPendaftaran), true);
+                        $dataDiagnosa = json_decode(file_get_contents($apiUrlDiagnosa), true);
+                        $dataJadwal = json_decode(file_get_contents($apiUrlJadwal), true);
+                        $dataDokter = json_decode(file_get_contents($apiUrlDokter), true);
+                        $dataResep = json_decode(file_get_contents($apiUrlResep), true);
 
-                    // Buat map dokter
-                    $dokterMap = [];
-                    if (isset($dataDokter['payload']) && is_array($dataDokter['payload'])) {
-                        foreach ($dataDokter['payload'] as $dokter) {
-                            $dokterMap[$dokter['ID_Dokter']] = $dokter['Nama'];
-                        }
-                    }
-
-                    // Buat map jadwal dan diagnosa
-                    $jadwalMap = [];
-                    if (isset($dataJadwal['items']) && is_array($dataJadwal['items'])) {
-                        foreach ($dataJadwal['items'] as $jadwal) {
-                            $jadwalMap[$jadwal['pendaftaran']] = $jadwal;
-                        }
-                    }
-
-                    $diagnosaMap = [];
-                    if (isset($dataDiagnosa['items']) && is_array($dataDiagnosa['items'])) {
-                        foreach ($dataDiagnosa['items'] as $diagnosa) {
-                            $diagnosaMap[$diagnosa['jadwal']] = $diagnosa;
-                        }
-                    }
-
-                    //buat map resep
-                    $resepMap = [];
-                    if (isset($dataResep['items']) && is_array($dataResep['items'])) {
-                        foreach ($dataResep['items'] as $resep) {
-                            $resepMap[$resep['id']] = $resep;
-                        }
-                    }
-
-
-                    // Filter pendaftaran berdasarkan pasien
-                    $rekamMedis = [];
-                    if (isset($dataPendaftaran['items']) && is_array($dataPendaftaran['items'])) {
-                        foreach ($dataPendaftaran['items'] as $pendaftaran) {
-                            if ($pendaftaran['pasien'] === $id_pasien) {
-                                $rekamMedis[] = $pendaftaran;
+                        // Buat map dokter
+                        $dokterMap = [];
+                        if (isset($dataDokter['payload']) && is_array($dataDokter['payload'])) {
+                            foreach ($dataDokter['payload'] as $dokter) {
+                                $dokterMap[$dokter['ID_Dokter']] = $dokter['Nama'];
                             }
                         }
-                    }
+
+                        // Buat map jadwal dan diagnosa
+                        $jadwalMap = [];
+                        if (isset($dataJadwal['items']) && is_array($dataJadwal['items'])) {
+                            foreach ($dataJadwal['items'] as $jadwal) {
+                                $jadwalMap[$jadwal['pendaftaran']] = $jadwal;
+                            }
+                        }
+
+                        $diagnosaMap = [];
+                        if (isset($dataDiagnosa['items']) && is_array($dataDiagnosa['items'])) {
+                            foreach ($dataDiagnosa['items'] as $diagnosa) {
+                                $diagnosaMap[$diagnosa['jadwal']] = $diagnosa;
+                            }
+                        }
+
+                        //buat map resep
+                        $resepMap = [];
+                        if (isset($dataResep['items']) && is_array($dataResep['items'])) {
+                            foreach ($dataResep['items'] as $resep) {
+                                $resepMap[$resep['id']] = $resep;
+                            }
+                        }
+
+
+                        // Filter pendaftaran berdasarkan pasien
+                        $rekamMedis = [];
+                        if (isset($dataPendaftaran['items']) && is_array($dataPendaftaran['items'])) {
+                            foreach ($dataPendaftaran['items'] as $pendaftaran) {
+                                if ($pendaftaran['pasien'] === $id_pasien) {
+                                    $rekamMedis[] = $pendaftaran;
+                                }
+                            }
+                        }
 
 
 
-                    // Tampilkan data rekam medis
-                    if (count($rekamMedis) > 0):
-                        $no = 1;
-                        foreach ($rekamMedis as $medis):
-                            $jadwal = $jadwalMap[$medis['id']] ?? null;
-                            $diagnosa = $jadwal ? ($diagnosaMap[$jadwal['id']] ?? null) : null;
-                            $keluhan = $diagnosa['keluhan'] ?? '-';
-                            $detail = $diagnosa['detail'] ?? '-';
-                            $jenisLayanan = $diagnosa['jenis_layanan'] ?? '-';
-                            $jenisPemeriksaan = $diagnosa['jenis_pemeriksaan'] ?? '-';
-                            $prioritas = $diagnosa['prioritas'] ?? '-';
-                            $catatan = $diagnosa['catatan'] ?? '-';
-                            $dokterNama = $dokterMap[$medis['dokter']] ?? 'Dokter Tidak Ditemukan';
-                            $resep = $resepMap[$diagnosa['id']] ?? null;
-                    ?>
-                            <tr>
-                                <td class="text-center"><?= $no; ?></td>
-                                <td class="text-center"><?= htmlspecialchars($medis["tanggal"]); ?></td>
-                                <td class="text-center"><?= htmlspecialchars($dokterNama); ?></td>
-                                <td class="text-center"><?= htmlspecialchars($keluhan); ?></td>
-                                <td class="text-center">
-                                    <button class="btn btn-sm custom-btn text-white" data-bs-toggle="modal" data-bs-target="#rekamMedisModal<?= $no; ?>">
-                                        Detail
-                                    </button>
-                                </td>
-                            </tr>
+                        // Tampilkan data rekam medis
+                        if (count($rekamMedis) > 0):
+                            $no = 1;
+                            foreach ($rekamMedis as $medis):
+                                $jadwal = $jadwalMap[$medis['id']] ?? null;
+                                $diagnosa = $jadwal ? ($diagnosaMap[$jadwal['id']] ?? null) : null;
+                                $keluhan = $diagnosa['keluhan'] ?? '-';
+                                $detail = $diagnosa['detail'] ?? '-';
+                                $jenisLayanan = $diagnosa['jenis_layanan'] ?? '-';
+                                $jenisPemeriksaan = $diagnosa['jenis_pemeriksaan'] ?? '-';
+                                $prioritas = $diagnosa['prioritas'] ?? '-';
+                                $catatan = $diagnosa['catatan'] ?? '-';
+                                $dokterNama = $dokterMap[$medis['dokter']] ?? 'Dokter Tidak Ditemukan';
+                                $resep = $resepMap[$diagnosa['id']] ?? null;
+                        ?>
+                                <tr>
+                                    <td class="text-center"><?= $no; ?></td>
+                                    <td class="text-center"><?= htmlspecialchars($medis["tanggal"]); ?></td>
+                                    <td class="text-center"><?= htmlspecialchars($dokterNama); ?></td>
+                                    <td class="text-center"><?= htmlspecialchars($keluhan); ?></td>
+                                    <td class="text-center">
+                                        <button class="btn btn-sm custom-btn text-white" data-bs-toggle="modal" data-bs-target="#rekamMedisModal<?= $no; ?>">
+                                            Detail
+                                        </button>
+                                    </td>
+                                </tr>
 
-                            <!-- Modal -->
-                            <div class="modal fade" id="rekamMedisModal<?= $no; ?>" tabindex="-1" aria-labelledby="rekamMedisModalLabel<?= $no; ?>" aria-hidden="true">
-                                <div class="modal-dialog modal-lg">
-                                    <div class="modal-content px-4 py-3">
-                                        <div class="modal-header">
-                                            <h3 class="modal-title" id="rekamMedisModalLabel<?= $no; ?>">Detail Rekam Medis</h3>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form>
-                                                <div class="mb-3">
-                                                    <label for="tanggal" class="form-label">Tanggal</label>
-                                                    <input type="text" class="form-control" id="tanggal" value="<?= htmlspecialchars($medis["tanggal"]); ?>" disabled>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="dokter" class="form-label">Dokter</label>
-                                                    <input type="text" class="form-control" id="dokter" value="<?= htmlspecialchars($dokterNama); ?>" disabled>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="keluhan" class="form-label">Keluhan</label>
-                                                    <input type="text" class="form-control" id="keluhan" value="<?= htmlspecialchars($keluhan); ?>" disabled>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="diagnosa" class="form-label">Diagnosa</label>
-                                                    <input type="text" class="form-control" id="diagnosa" value="<?= htmlspecialchars($detail); ?>" disabled>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="jenisLayanan" class="form-label">Jenis Layanan</label>
-                                                    <input type="text" class="form-control" id="jenisLayanan" value="<?= htmlspecialchars($jenisLayanan); ?>" disabled>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="jenisPemeriksaan" class="form-label">Jenis Pemeriksaan</label>
-                                                    <input type="text" class="form-control" id="jenisPemeriksaan" value="<?= htmlspecialchars($jenisPemeriksaan); ?>" disabled>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="prioritas" class="form-label">Prioritas</label>
-                                                    <input type="text" class="form-control" id="prioritas" value="<?= htmlspecialchars($prioritas); ?>" disabled>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="catatan" class="form-label">Catatan</label>
-                                                    <textarea class="form-control" id="catatan" rows="3" disabled><?= htmlspecialchars($catatan); ?></textarea>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="resep" class="form-label">Resep</label>
-                                                    <input type="text" class="form-control" id="resep" value="<?= $resep ? htmlspecialchars($resep['resep']) : '-'; ?>" disabled>
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button class="btn custom-btn text-white" data-bs-dismiss="modal">Tutup</button>
+                                <!-- Modal -->
+                                <div class="modal fade" id="rekamMedisModal<?= $no; ?>" tabindex="-1" aria-labelledby="rekamMedisModalLabel<?= $no; ?>" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content px-4 py-3">
+                                            <div class="modal-header">
+                                                <h3 class="modal-title" id="rekamMedisModalLabel<?= $no; ?>">Detail Rekam Medis</h3>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form>
+                                                    <div class="mb-3">
+                                                        <label for="tanggal" class="form-label">Tanggal</label>
+                                                        <input type="text" class="form-control" id="tanggal" value="<?= htmlspecialchars($medis["tanggal"]); ?>" disabled>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="dokter" class="form-label">Dokter</label>
+                                                        <input type="text" class="form-control" id="dokter" value="<?= htmlspecialchars($dokterNama); ?>" disabled>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="keluhan" class="form-label">Keluhan</label>
+                                                        <input type="text" class="form-control" id="keluhan" value="<?= htmlspecialchars($keluhan); ?>" disabled>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="diagnosa" class="form-label">Diagnosa</label>
+                                                        <input type="text" class="form-control" id="diagnosa" value="<?= htmlspecialchars($detail); ?>" disabled>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="jenisLayanan" class="form-label">Jenis Layanan</label>
+                                                        <input type="text" class="form-control" id="jenisLayanan" value="<?= htmlspecialchars($jenisLayanan); ?>" disabled>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="jenisPemeriksaan" class="form-label">Jenis Pemeriksaan</label>
+                                                        <input type="text" class="form-control" id="jenisPemeriksaan" value="<?= htmlspecialchars($jenisPemeriksaan); ?>" disabled>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="prioritas" class="form-label">Prioritas</label>
+                                                        <input type="text" class="form-control" id="prioritas" value="<?= htmlspecialchars($prioritas); ?>" disabled>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="catatan" class="form-label">Catatan</label>
+                                                        <textarea class="form-control" id="catatan" rows="3" disabled><?= htmlspecialchars($catatan); ?></textarea>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="resep" class="form-label">Resep</label>
+                                                        <input type="text" class="form-control" id="resep" value="<?= $resep ? htmlspecialchars($resep['resep']) : '-'; ?>" disabled>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="btn custom-btn text-white" data-bs-dismiss="modal">Tutup</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                        <?php
-                            $no++;
-                        endforeach;
-                    else:
-                        ?>
-                        <tr>
-                            <td colspan="5" class="text-center">Data tidak ditemukan.</td>
-                        </tr>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+                            <?php
+                                $no++;
+                            endforeach;
+                        else:
+                            ?>
+                            <tr>
+                                <td colspan="5" class="text-center">Data tidak ditemukan.</td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     <?php else: ?>
         <p>Data pasien tidak ditemukan.</p>
