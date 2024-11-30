@@ -65,7 +65,7 @@ mysqli_close($conn);
         </div>
         <!-- Left Section -->
         <div class="col-md-7 d-flex justify-content-center align-items-center gradient-bg">
-            <div id="carouselExample" class="carousel slide p-5" data-bs-ride="carousel">
+            <div id="carouselExample" class="carousel slide carousel-fade p-5" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
                         <img
@@ -98,6 +98,9 @@ mysqli_close($conn);
                 </div>
             </div>
         </div>
+
+
+
         <!-- Right Section -->
         <div class="col-md-5 d-flex align-items-center justify-content-center px-5">
             <div class="card card-login p-5 w-100 shadow-sm rounded-4">
