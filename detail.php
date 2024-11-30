@@ -45,13 +45,13 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
         <h1 class="text-dark mb-0">PENS HOSPITAL</h1>
     </div>
 
-    <div class="bg-white rounded-4 px-5 py-4 shadow-sm">
+    <div class="bg-white rounded-4 px-4 py-4 shadow-sm">
         <div class="text-center mb-4">
             <h2>Rekam Medis Pasien</h2>
         </div>
 
         <!-- Informasi Pasien -->
-        <div class="row mb-4">
+        <div class="row mb-4 px-4">
             <?php
             $id_pasien = isset($_GET['id']) ? $_GET['id'] : null;
 
@@ -132,6 +132,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
                         $dataDokter = json_decode(file_get_contents($apiUrlDokter), true);
                         $dataResep = json_decode(file_get_contents($apiUrlResep), true);
 
+
                         // Buat map dokter
                         $dokterMap = [];
                         if (isset($dataDokter['payload']) && is_array($dataDokter['payload'])) {
@@ -162,6 +163,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
                         if (isset($dataObat['items']) && is_array($dataObat['items'])) {
                             foreach ($dataObat['items'] as $obat) {
                                 $obatMap[$obat['resep']][] = $obat; // Group by resep ID
+
                             }
                         }
 
@@ -194,6 +196,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
                                 $resep = $resepMap[$diagnosa['id']] ?? null;
                                 $obatList = $resep ? ($obatMap[$resep['id']] ?? []) : [];
                                 ?>
+=
                                 <tr>
                                     <td class="text-center"><?= $no; ?></td>
                                     <td class="text-center"><?= htmlspecialchars($medis["tanggal"]); ?></td>
@@ -214,58 +217,64 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
                                         <div class="modal-content px-4 py-3">
                                             <div class="modal-header">
                                                 <h3 class="modal-title" id="rekamMedisModalLabel<?= $no; ?>">Detail Rekam Medis</h3>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
                                                 <form>
-                                                    <div class="mb-3">
-                                                        <label for="tanggal" class="form-label">Tanggal</label>
-                                                        <input type="text" class="form-control" id="tanggal"
-                                                            value="<?= htmlspecialchars($medis["tanggal"]); ?>" disabled>
+                                                    <div class="row mb-3 align-items-center">
+                                                        <label for="tanggal" class="col-sm-3 col-form-label">Tanggal</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="text" class="form-control" id="tanggal" value="<?= htmlspecialchars($medis["tanggal"]); ?>" disabled>
+                                                        </div>
+                                                    </div>   
+                                                    <div class="row mb-3 align-items-center">
+                                                        <label for="dokter" class="col-sm-3 col-form-label">Dokter</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="text" class="form-control" id="dokter" value="<?= htmlspecialchars($dokterNama); ?>" disabled>
+                                                        </div>
                                                     </div>
-                                                    <div class="mb-3">
-                                                        <label for="dokter" class="form-label">Dokter</label>
-                                                        <input type="text" class="form-control" id="dokter"
-                                                            value="<?= htmlspecialchars($dokterNama); ?>" disabled>
+                                                    <div class="row mb-3 align-items-center">
+                                                        <label for="keluhan" class="col-sm-3 col-form-label">Keluhan</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="text" class="form-control" id="keluhan" value="<?= htmlspecialchars($keluhan); ?>" disabled>
+                                                        </div>
                                                     </div>
-                                                    <div class="mb-3">
-                                                        <label for="keluhan" class="form-label">Keluhan</label>
-                                                        <input type="text" class="form-control" id="keluhan"
-                                                            value="<?= htmlspecialchars($keluhan); ?>" disabled>
+                                                    <div class="row mb-3 align-items-center">
+                                                        <label for="diagnosa" class="col-sm-3 col-form-label">Diagnosa</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="text" class="form-control" id="diagnosa" value="<?= htmlspecialchars($detail); ?>" disabled>
+                                                        </div>
                                                     </div>
-                                                    <div class="mb-3">
-                                                        <label for="diagnosa" class="form-label">Diagnosa</label>
-                                                        <input type="text" class="form-control" id="diagnosa"
-                                                            value="<?= htmlspecialchars($detail); ?>" disabled>
+                                                    <div class="row mb-3 align-items-center">
+                                                        <label for="jenisLayanan" class="col-sm-3 col-form-label">Jenis Layanan</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="text" class="form-control" id="jenisLayanan" value="<?= htmlspecialchars($jenisLayanan); ?>" disabled>
+                                                        </div>
                                                     </div>
-                                                    <div class="mb-3">
-                                                        <label for="jenisLayanan" class="form-label">Jenis Layanan</label>
-                                                        <input type="text" class="form-control" id="jenisLayanan"
-                                                            value="<?= htmlspecialchars($jenisLayanan); ?>" disabled>
+                                                    <div class="row mb-3 align-items-center">
+                                                        <label for="jenisPemeriksaan" class="col-sm-3 col-form-label">Jenis Pemeriksaan</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="text" class="form-control" id="jenisPemeriksaan" value="<?= htmlspecialchars($jenisPemeriksaan); ?>" disabled>
+                                                        </div>
                                                     </div>
-                                                    <div class="mb-3">
-                                                        <label for="jenisPemeriksaan" class="form-label">Jenis Pemeriksaan</label>
-                                                        <input type="text" class="form-control" id="jenisPemeriksaan"
-                                                            value="<?= htmlspecialchars($jenisPemeriksaan); ?>" disabled>
+                                                    <div class="row mb-3 align-items-center">
+                                                        <label for="prioritas" class="col-sm-3 col-form-label">Prioritas</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="text" class="form-control" id="prioritas" value="<?= htmlspecialchars($prioritas); ?>" disabled>
+                                                        </div>
                                                     </div>
-                                                    <div class="mb-3">
-                                                        <label for="prioritas" class="form-label">Prioritas</label>
-                                                        <input type="text" class="form-control" id="prioritas"
-                                                            value="<?= htmlspecialchars($prioritas); ?>" disabled>
+                                                    <div class="row mb-3">
+                                                        <label for="catatan" class="col-sm-3 col-form-label">Catatan</label>
+                                                        <div class="col-sm-9">
+                                                            <textarea class="form-control" id="catatan" rows="3" disabled><?= htmlspecialchars($catatan); ?></textarea>
+                                                        </div>
                                                     </div>
-                                                    <div class="mb-3">
-                                                        <label for="catatan" class="form-label">Catatan</label>
-                                                        <textarea class="form-control" id="catatan" rows="3"
-                                                            disabled><?= htmlspecialchars($catatan); ?></textarea>
+                                                    <div class="row mb-3 align-items-center">
+                                                        <label for="obat" class="col-sm-3 col-form-label">Obat</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="text" class="form-control" id="obat" value="<?= $obat ? htmlspecialchars($obat['nama_obat']) : '-'; ?>" disabled>
+                                                        </div>
                                                     </div>
-                                                    <div class="mb-3">
-                                                        <label for="obat" class="form-label">Obat</label>
-                                                        <input type="text" class="form-control" id="obat"
-                                                            value="<?= $obat ? htmlspecialchars($obat['nama_obat']) : '-'; ?>"
-                                                         disabled>
-                                                    </div>
-
                                                 </form>
                                             </div>
                                             <div class="modal-footer">
@@ -274,6 +283,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
                                         </div>
                                     </div>
                                 </div>
+
 
                                 <?php
                                 $no++;

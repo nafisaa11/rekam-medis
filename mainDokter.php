@@ -173,7 +173,7 @@ if ($dataResult) {
 
     <!-- Pagination -->
     <nav aria-label="Page navigation">
-      <ul class="pagination justify-content-center">
+      <ul class="pagination justify-content-end">
         <?php if ($page > 1): ?>
           <li class="page-item">
             <a class="page-link" href="?page=<?= $page - 1; ?>" aria-label="Previous">
