@@ -146,10 +146,9 @@ if ($dataResult) {
                 <td class="text-center"><?= htmlspecialchars($row["Alamat"]); ?></td>
                 <td class="text-center"><?= htmlspecialchars($row["No_Hp"]); ?></td>
                 <td class="d-flex justify-content-evenly pe-3">
-                  <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                    data-bs-target="#editDokterModal" onclick="getDokterData('<?= $dokter['ID_Dokter']; ?>')">
-                    <i class="fa-solid fa-pen-to-square fa-lg me-2"></i>
-                  </button>
+                    <a href="#" class="btn-edit-dokter" data-id="<?= htmlspecialchars($row['ID_Dokter']); ?>" style="text-decoration: none;">
+                        <i class="fa-solid fa-pen-to-square fa-lg me-2"></i>
+                    </a>
                   <!--  -->
                   <form action="function.php" method="POST" style="display:inline;">
                     <input type="hidden" name="ID_Dokter" value="<?= htmlspecialchars($row['ID_Dokter'], ENT_QUOTES); ?>">
@@ -283,7 +282,7 @@ if ($dataResult) {
         <button type="button" class="btn-close text-white me-4" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body px-5">
-        <form id="editDokterForm" action="function.php" method="post">
+        <form id="editDokterForm" action="controllers/editDokter.php" method="post">
           <input type="hidden" id="edit_id_dokter" name="ID_Dokter">
           <div class="mb-3">
             <label for="edit_nama" class="form-label">Nama</label>
