@@ -32,7 +32,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
 
     <!-- Logout Button -->
     <div class="position-absolute bottom-0 mb-5">
-        <a href="Rekam_medis" class="logout-btn">
+        <a href="logout.php" class="logout-btn">
             <i class="fas fa-sign-out-alt"></i>
         </a>
     </div>
