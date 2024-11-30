@@ -1,3 +1,11 @@
+<?php
+session_start();
+if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
+    header('Location: index.php'); 
+    exit;
+}
+
+?>
 <?php include 'templates/header.php'; ?>
 <aside class="sidebar d-flex flex-column align-items-center p-4">
         <!-- Admin Profile -->
@@ -28,7 +36,7 @@
 
         <!-- Logout Button -->
         <div class="position-absolute bottom-0 mb-5">
-          <a href="Rekam_medis" class="logout-btn">
+          <a href="logout.php" class="logout-btn">
             <i class="fas fa-sign-out-alt"></i>
           </a>
         </div>
