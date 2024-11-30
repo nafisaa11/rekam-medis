@@ -63,8 +63,9 @@ mysqli_close($conn);
             <img src="templates/img/Shield.png" alt="" class="me-2" style="width: 64px;">
             <h1 class="mb-0">PENS HOSPITAL</h1>
         </div>
+    
         <!-- Left Section -->
-        <div class="col-md-7 d-flex justify-content-center align-items-center gradient-bg">
+        <div class="col-md-6 d-flex justify-content-center align-items-center gradient-bg mt-4">
             <div id="carouselExample" class="carousel slide carousel-fade p-5" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
@@ -99,12 +100,10 @@ mysqli_close($conn);
             </div>
         </div>
 
-
-
         <!-- Right Section -->
-        <div class="col-md-5 d-flex align-items-center justify-content-center px-5">
-            <div class="card card-login p-5 w-100 shadow-sm rounded-4">
-                <h2 class="text-center mb-4">Login Admin</h2    >
+        <div class="col-md-5 d-flex align-items-center justify-content-center px-5 mt-4">
+            <div class="card card-login p-5 w-100 shadow rounded-4">
+                <h2 class="text-center mb-4">Login Admin</h2>
                 <?php if ($error): ?>
                     <div class="alert alert-danger" role="alert">
                         <?php echo $error; ?>
@@ -113,17 +112,23 @@ mysqli_close($conn);
                 <form method="POST" action="">
                     <div class="mb-3">
                         <label for="username" class="form-label">Username </label>
-                        <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" required>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">@</span>
+                            <input type="text" class="form-control" id="username" name="username" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" require>
+                        </div>
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-1">
                         <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+                        <div class="input-group mb-1">
+                            <span class="input-group-text" id="basic-addon1">#</span>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" aria-label="Password" aria-describedby="basic-addon1" require>
+                        </div>
                     </div>
                     <div class="form-check mb-3">
                         <input type="checkbox" class="form-check-input" id="rememberMe">
                         <label class="form-check-label remember-me-label" for="rememberMe">Remember Me</label>
                     </div>
-                    <button type="submit" class="btn custom-btn text-white w-100">Login</button>
+                    <button type="submit" class="btn custom-btn text-white w-100 mt-3">Login</button>
                 </form>
             </div>
         </div>

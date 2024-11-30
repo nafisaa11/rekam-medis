@@ -63,7 +63,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
 
       <!-- Search Form -->
       <form action="" method="GET" class="d-flex w-50">
-        <input type="text" name="search" class="form-control" placeholder="Cari Pasien..." value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>" />
+        <input type="text" name="search" class="form-control flex-grow-1" placeholder="Cari Dokter..." value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>" />
         <button type="submit" class="btn custom-btn text-white ms-2">Cari</button>
       </form>
     </div>
