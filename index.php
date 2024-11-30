@@ -60,17 +60,12 @@ mysqli_close($conn);
 <div class="container-fluid p-5 d-flex align-items-center justify-content-center">
     <div class="row w-100 mx-0">
         <div class="d-flex align-items-center mb-4">
-            <img
-                src="templates/img/Shield.png"
-                alt="Shield Logo"
-                class="me-3"
-                style="width: 60px; height: auto"
-            />
-            <h2 class="fw-bold text-primary mb-0">PENS HOSPITAL</h2>
+            <img src="templates/img/Shield.png" alt="" class="me-3" style="width: 64px;">
+            <h2 class="mb-0 fw-bold">PENS HOSPITAL</h2>
         </div>
         <!-- Left Section -->
         <div class="col-md-7 d-flex justify-content-center align-items-center gradient-bg">
-            <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+            <div id="carouselExample" class="carousel slide p-5" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
                         <img
