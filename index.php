@@ -4,8 +4,8 @@
 <div class="container-fluid p-5 d-flex align-items-center justify-content-center">
     <div class="row w-100 mx-0">
         <div class="d-flex align-items-center mb-4">
-            <img src="templates/img/Shield.png" alt="" class="me-3" style="width: 64px;">
-            <h2 class="mb-0 fw-bold">PENS HOSPITAL</h2>
+            <img src="templates/img/Shield.png" alt="" class="me-2" style="width: 64px;">
+            <h1 class="mb-0">PENS HOSPITAL</h1>
         </div>
         <!-- Left Section -->
         <div class="col-md-7 d-flex justify-content-center align-items-center gradient-bg">
@@ -16,40 +16,36 @@
                             src="templates/img/DNA.png"
                             alt="DNA"
                             class="d-block carousel-img mx-auto"
-                            style="width: 300px; height: auto"
-                        />
+                            style="width: 300px; height: auto" />
                     </div>
                     <div class="carousel-item">
                         <img
                             src="templates/img/Medicine.png"
                             alt="Medicine"
                             class="d-block carousel-img mx-auto"
-                            style="width: 300px; height: auto"
-                        />
+                            style="width: 300px; height: auto" />
                     </div>
                     <div class="carousel-item">
                         <img
                             src="templates/img/Checklist.png"
                             alt="Checklist"
                             class="d-block carousel-img mx-auto"
-                            style="width: 300px; height: auto"
-                        />
+                            style="width: 300px; height: auto" />
                     </div>
                     <div class="carousel-item">
                         <img
                             src="templates/img/Hearth.png"
                             alt="Hearth"
                             class="d-block carousel-img mx-auto"
-                            style="width: 300px; height: auto"
-                        />
+                            style="width: 300px; height: auto" />
                     </div>
                 </div>
             </div>
         </div>
         <!-- Right Section -->
         <div class="col-md-5 d-flex align-items-center justify-content-center px-5">
-            <div class="card card-login p-4 w-100 shadow">
-                <h4 class="text-center mb-4">Login Admin</h4>
+            <div class="card card-login p-5 w-100 shadow-sm rounded-4">
+                <h2 class="text-center mb-4">Login Admin</h2>
                 <form>
                     <div class="mb-3">
                         <label for="username" class="form-label">Username</label>
