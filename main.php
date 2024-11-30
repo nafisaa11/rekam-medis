@@ -54,7 +54,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
   <!-- Tabel Pasien -->
   <div class="bg-white px-5 py-4 mt-2 shadow-sm rounded-4">
     <div class="d-flex justify-content-between align-items-center">
-      <h2>Data Pasien</h2>
+      <h2 class="mb-0">Data Pasien</h2>
       <!-- Search Form -->
       <form action="" method="GET" class="d-flex w-50">
         <input type="text" name="search" class="form-control flex-grow-1" placeholder="Cari Pasien..." value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>" />
