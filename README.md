@@ -1,1 +1,1 @@
-# rekam-medis
+Proyek ini merupakan tampilan depan (frontend) dari website rekam medis yang terintegrasi dengan API backend rekam medis. Aplikasi frontend ini digunakan untuk memanajemen data rekam medis secara efisien melalui antarmuka web yang user-friendly.
